@@ -357,8 +357,7 @@
                 <option value="ssi_tema4">Tema 4</option>
                 <option value="ssi_tema5">Tema 5</option>
                 <option value="ssi_todos_temas">Todos los Temas</option>
-                <option value="ssi_posibles">Posibles Preguntas</option>
-            </select>   
+                <option value="ssi_posibles" selected>Posibles Preguntas</option>
             </select>
         </div>
 
@@ -455,397 +454,1157 @@
 </div>
 
 <script>
-    // --- DICCIONARIO DE BANCOS DE PREGUNTAS ---
-    // Puedes añadir más bloques en el futuro siguiendo esta misma estructura.
+    // ==============================================================================
+    // 📁 ZONA DE PREGUNTAS (Fácil de modificar)
+    // ==============================================================================
+    // INSTRUCCIONES PARA MODIFICAR O AÑADIR PREGUNTAS:
+    // 
+    // 1. Cada pregunta es un bloque que empieza por { y acaba por },
+    // 2. 'q' contiene el texto de la pregunta (siempre entre comillas).
+    // 3. 'a' es la RESPUESTA CORRECTA. Funciona por índices (empezando en 0).
+    //    (0 = la primera, 1 = la segunda, 2 = la tercera, 3 = la cuarta).
+    // 4. 'opts' son las opciones separadas por comas y entre comillas.
+    //
+    // Ejemplo de cómo se ve una pregunta:
+    // {
+    //      q: "¿De qué color es el caballo blanco de Santiago?",
+    //      a: 0, 
+    //      opts: ["Blanco", "Negro", "Gris"]
+    // },
+    // ==============================================================================
+
     const bancosPreguntas = {
-        "ssi_tema1": {
-            nombre: "Tema 1",
-            datos: [
-                { q: "Los 4 elementos básicos de la seguridad informática son integridad, confidencialidad, no repudio, autenticación y:", a: 0, opts: ["Disponibilidad", "Sostenibilidad", "Permisividad", "Trazabilidad"] }, // [cite: 1, 89, 93, 99, 136]
-                { q: "Cuando una empresa se debate el sistema informático que se piensa utilizar, y se definen los instrumentos que dan soporte al sistema de información, estos se componen de:", a: 0, opts: ["Elementos físicos y elementos lógicos.", "Elementos físicos y elementos tecnológicos."] }, // [cite: 1, 58, 68]
-                { q: "Introducción a la seguridad en sistemas informáticos. A qué ámbitos se agrupan la seguridad informática.", a: 0, opts: ["Todas son correctas.", "Servidores de acceso público y privado."] }, // [cite: 2, 58, 136]
-                { q: "Los objetivos de los ataques que puede sufrir una empresa que se dedica a la gestión y protección de datos para una empresa pueden ser:", a: 0, opts: ["Hardware, Software y Datos", "Hardware, Software y Base de datos", "Físicos, Lógicos y Datos.", "Físicos, Lógicos y Base de datos."] }, // [cite: 5, 58, 68, 83, 89]
-                { q: "Definición de seguridad física:", a: 0, opts: ["Aplicación de barreras físicas y procedimientos de control, como medidas de prevención y contramedidas ante amenazas a los recursos e información confidencial.", "Aplicación de gestores de barreras con procedimientos que guardan la estructura para que no puedan acceder ninguna persona no autorizada.", "Ninguna es correcta."] }, // [cite: 6, 58, 75, 108]
-                { q: "La empresa donde estamos encargados de custodiar toda la información sensible, cuando recibe un ataque denominado, \"Mirar por encima del hombro\" o Shoulder Surfing, nos estamos refiriendo a un ataque de:", a: 0, opts: ["Monitorización.", "Ataque de DoS."] }, // [cite: 7, 58, 72]
-                { q: "Los ataques a los bugs de los sistemas operativos se realizan mediante ataques de validación. Nos referimos a un ataque de:", a: 0, opts: ["Exploits", "Flooding", "Puerta trasera."] }, // [cite: 8, 58, 72, 128]
-                { q: "Definición de seguridad lógica:", a: 0, opts: ["Aplicación de barreras y procedimientos que resguarden el acceso a los datos y sólo se permita acceder a ellos a las personas autorizadas para hacerlo.", "Aplicación de barreras y protocolos que resguarden el acceso a los datos y sólo se permita acceder a ellos a las personas autorizadas para hacerlo", "Aplicación de medidas y protocolos que nos aseguran que el acceso a los datos sólo puede ser accedidos por personal autorizado.", "Aplicación de barreras y procedimientos que resguarden el acceso a los datos sólo se permita acceder a ellos a las personas autorizadas para hacerlo."] }, // [cite: 10, 58, 79, 89, 110]
-                { q: "Es la materia que se encarga de proteger los ordenadores, redes, sistemas informáticos y datos que en ellos se almacenan de agentes externos o internos que pudieran dañarlos o robarlos.", a: 0, opts: ["Seguridad Informática.", "Sistemas informáticos.", "Seguridad."] }, // [cite: 11, 58, 78, 89]
-                { q: "¿Cuáles de estos desastres corresponde con la seguridad física?", a: 0, opts: ["Señales de radar.", "Robo.", "Detectores de metales."] }, // [cite: 14, 58, 68, 89]
-                { q: "Definiciones: \"Programas que se reproducen dentro del ordenador. Los sistemas se ralentizan. Algunos tienen el objetivo de recopilar información de nuestro ordenador\".", a: 0, opts: ["Gusanos.", "Virus."] }, // [cite: 17, 58, 136]
-                { q: "Suplantar una IP y enviar una petición, esperando que cuando todos respondan se sature la máquina víctima. ¿A qué tipo de ataque DoS nos estamos refiriendo?", a: 0, opts: ["Tormenta broadcast", "Bombardeo e-mail", "Desbordamiento Net"] }, // [cite: 22, 58, 83, 89]
-                { q: "¿Cómo se podrían clasificar los ataques que puede sufrir un entorno informático?", a: 0, opts: ["Ambas son correctas", "Activos"] }, // [cite: 27, 58, 83]
-                { q: "Cuando el profesional de seguridad informática es formado para conocer los diferentes tipos de ataques que pueden sufrir el dispositivo que almacena la información, que siendo este encargado de preservar su integridad, dichos ataques podemos clasificarlos en:", a: 0, opts: ["Ataques de Monitorización, Validación, Denegación de Servicios y modificacion", "Ataques de Monitorización, acceso, Denegación de Servicios y Modificación", "Ataques de Virtualización, Validación, Denegación de Servicios y modificacion", "Ataques de Monitorización, Validación, Denegación de Recursos y modificacion"] }, // [cite: 30, 58, 78, 80, 123]
-                { q: "Suplantando la identidad en saltos: realizamos conexiones consecutivas suplantando a distintos usuarios (es decir el ataque va saltando de máquina en máquina). Nos estamos refiriendo a los ataques de validación:", a: 0, opts: ["Spoofing - Looping.", "Spoofing", "Ip Spoofing - Looping.", "Ip Looping."] }, // [cite: 33, 58, 67, 68, 72]
-                { q: "Dentro de los ataques de modificación, siendo estos ataques con código malicioso que este se ejecuta cuando entramos en páginas web. ¿Cómo se denominan?", a: 0, opts: ["Todas son correctas", "JavaScript o VisualScript", "Controles ActiveX"] }, // [cite: 38, 58, 68, 84]
-                { q: "\"La unión de miles de redes informáticas conectadas entre sí, mediante una serie de protocolos (TCP/IP), que hace posible, para cualquier usuario de una de estas redes, comunicarse o utilizar los servicios de cualquiera de las otras\". Es la definición de:", a: 0, opts: ["Internet", "Ninguna es correcta"] }, // [cite: 42, 58, 137]
-                { q: "La seguridad informática es la materia que se encarga de proteger los ordenadores, redes, sistemas informáticos y datos que en ellos se almacenan de agentes externos o internos que pudieran dañarlos o robarlos. Esta nos ofrece las siguientes propiedades:", a: 0, opts: ["Confidencialidad (privacidad), integridad, autentificación, disponibilidad, no repudio, control, protección a la réplica, aislamiento y auditoría.", "Confidencialidad (privacidad), integridad, autentificación, disponibilidad, repudio, control, protección a la réplica, aislamiento y auditoría.", "Confidencialidad (privacidad), integridad, autentificación, indisponibilidad, no repudio, control, protección a la réplica, aislamiento y auditoría."] }, // [cite: 45, 58, 90, 137]
-                { q: "La modificación sin autorización de datos o de los programas instalados en un sistema, incluido el borrado de ficheros, es lo que denominamos un ataque de:", a: 0, opts: ["Ataque de modificacion", "Ataque de monitorizacion"] }, // [cite: 48, 58, 92]
-                { q: "Dentro de la seguridad física podemos agruparlos en 3 tipos, ¿cuáles son?", a: 0, opts: ["Tipos de desastres, acciones hostiles y control de accesos.", "Tipos de desastres, acciones hostiles y control de entrada.", "Tipos de desastres, acciones desfavorables y control de accesos."] }, // [cite: 50, 58, 64, 84]
-                { q: "En los ataques de monitorización, para saber qué puertos hay abiertos se lanzan peticiones de conexión completas, ¿a qué tipo de escaneo nos estamos refiriendo?", a: 0, opts: ["Escaneo TCP Connect", "Escaneo Eavesdropping.", "Escaneo TCP SYN.", "Escaneo Sniffering."] } // [cite: 53, 58, 62, 72, 90]
-            ]
-        },
-        "ssi_tema2": {
-            nombre: "Tema 2",
-            datos: [
-                { q: "La cifra del César corresponde a una:", a: 0, opts: ["sustitución monoalfabética", "transposición sin clave", "permutación simple", "sustitución polialfabética"] },
-                { q: "La cifra tipo Vigenère puede atacarse con cierta facilidad usando técnicas de:", a: 0, opts: ["Kasiski", "fuerza bruta", "índice de coincidencia"] },
-                { q: "Si una cifra se representa matemáticamente como Ci = Mi + Ki mod n, decimos que se trata de una cifra:", a: 1, opts: ["de Vigenère", "del César", "Playfair", "de escitala"] },
-                { q: "Si al volver a cifrar un criptograma con la misma clave se obtiene el mensaje en claro, se habla de:", a: 1, opts: ["clave simétrica", "clave débil", "solución falsa"] },
-                { q: "Respecto de los sistemas de clave simétrica, ¿cuál de las siguientes afirmaciones no es correcta?", a: 1, opts: ["Emplean la misma clave para cifrar y descifrar", "Computacionalmente son menos eficientes que los de clave asimétrica", "Hay que transmitir la clave de forma segura"] },
-                { q: "Cifrado en bloque. Arquitectura. Función criptográfica iterada ‘r’ veces o vueltas → ¿éstas deben formar grupo para que el conjunto de varias pasadas sucesivas con sus claves correspondientes no sean equivalentes a una pasada única con una subclave diferente?", a: 0, opts: ["No.", "En ocasiones.", "Sí."] },
-                { q: "Cuando se establece una correspondencia única para cada símbolo en todo el texto y es utilizada la sustitución monoalfabética, podemos decir que estamos utilizando algunos de estos ejemplos…", a: 0, opts: ["a) Todas son correctas.", "c) Cifrado monoalfabético general.", "b) Cifrado César.", "d) Sustitución Afín."] },
-                { q: "De todos los elementos que tiene la arquitectura del cifrado en bloque. Indica cuál es la incorrecta.", a: 0, opts: ["Algoritmo de compresión de clave.", "Función criptográfica iterada ‘r’ veces o vueltas.", "Transformación final.", "Transformación inicial."] },
-                { q: "Si al cifrar en DES Ek1 (Ek1 (M)) = M , entonces:", a: 1, opts: ["La clave es semidébil", "La clave es débil", "La clave será binaria"] },
-                { q: "Criptografía simétrica. Cifrado en bloque. Arquitectura. Elementos. Transformación final. Para que las operaciones de cifrado y de descifrado sean simétricas y se consiga la inversa de la transformación inicial, ¿se realiza la transformación inversa de la última vuelta de encriptación?", a: 2, opts: ["Sí.", "No.", "En ocasiones.", "No sabe no contesta."] },
-                { q: "¿Qué algoritmo original tipo Feistel dio lugar al DES?", a: 0, opts: ["Lucifer.", "Cast.", "RC2."] },
-                { q: "Los criptosistemas simétricos o de clave privada, tienen una serie de características. ¿Puede indicarnos cuál o cuáles son las correctas?", a: 1, opts: ["La clave debe permanecer secreta y estar a disposición del emisor y el receptor.", "Todas son correctas.", "Hay que transmitir la clave de forma segura siendo estos computacionalmente muy eficientes."] },
-                { q: "Una de las vulnerabilidades que podemos encontrarnos en la criptografía simétrica en el cifrado en flujo es:", a: 1, opts: ["La semilla es el generador de la clave, conociendo esta podemos detectar cuál es la longitud de la clave.", "Nunca se debe usar una misma clave en dos mensajes.", "La clave es tan larga como el mensaje.", "Generar secuencias aleatorias y tenerlas almacenadas en el receptor y emisor."] },
-                { q: "¿Cómo se denomina el cifrado que divide el bloque inicial en dos mitades y en cada vuelta de encriptación se trabaja alternativamente con una de las mitades?", a: 1, opts: ["Todos son correctos.", "Cifrados de Feistel.", "Cifrado Lucifer.", "Cifrado DES"] },
-                { q: "\"Es un ataque de texto conocido\". De este tipo de ataque se conocen varios textos claros y sus correspondientes criptogramas. Teniendo 243 pares de textos claros/cifrados se pueden obtener 26 bits de la clave. ¿A qué tipo de criptoanálisis nos estamos refiriendo?", a: 0, opts: ["Criptoanálisis lineal.", "Criptoanálisis diferencial.", "Fuerza bruta.", "DES Challenges."] },
-                { q: "Cuando la longitud de la cadena a cifrar no es múltiplo del tamaño de bloque hay que completar el último bloque con algún patrón (p.ej. con ceros). Nos encontramos con el problema de separar la parte que es relleno al descifrar. Para darle solución a ello se indica en el último byte añadido el número total de bytes añadidos. Es lo que se denomina:", a: 0, opts: ["Padding.", "EDE."] },
-                { q: "Al encontrarnos un mensaje cifrado y necesitamos conocer la información que ha sido enviada por ese canal. ¿Cómo se llama el método de descifrar los mensajes cifrados?", a: 0, opts: ["a) Criptoanálisis.", "b) Criptografía."] },
-                { q: "Cuando Adela quiere enviar una información oculta para que solamente Benito tenga acceso a dicha información; utilizando un canal no seguro, realiza el cifrado con los símbolos de texto claro que se \"desordenan\" para formar el criptograma. Adela está usando:", a: 0, opts: ["a) Cifrado por Transposición.", "c) Cifrado por Sustitución.", "b) Cifrado por Homofónica.", "d) Cifrado Vigenère."] },
-                { q: "¿Podrías indicarnos cuantos métodos de criptografía podemos encontrarnos según lo estudiado en la parte 2.1 del temario de SSI?", a: 0, opts: ["b) Sustitución y Transposición.", "d) Dispersión y Transposición.", "c) Sustitución y Homofónica."] },
-                { q: "En el siglo IX a.C., Lacedemonio, hijo de Cimon; mitad del siglo V a. C., fue un militar ateniense, perteneciente a la poderosa familia de los Filaidas. Siendo comandante de la flota de Atenas y distinguido en la batalla de Síbota, se comunicaba con sus tropas en un palo con tira de cuero enrollada en espiral. En este se es cribe en columnas a lo largo del palo. ¿Qué método de transposición era?", a: 0, opts: ["b) Escitala.", "c) Columnas."] },
-                { q: "Si una cifra se representa matemáticamente como Ci = Mi + Ki (mod n), decimos que se trata de una cifra:", a: 1, opts: ["a) De Vigenère.", "c) Del César.", "d) De escítala."] },
-                { q: "Una contramedida para intentar evitar el análisis de frecuencias, se usa que a cada símbolo del alfabeto del espacio del mensaje (M) le corresponden varios símbolos del alfabeto del espacio del texto cifrado (C). Dicha correspondencia se realiza de manera que los símbolos de M con mayor frecuencia tengan más símbolos asignados en C, siendo este tipo de sustitución consiguiente en uniformizar las frecuencias de símbolos del criptograma para dificultar el análisis de frecuencias. Dentro del método de sustitución, ¿cuál de las siguientes opciones tiene este sistema?", a: 1, opts: ["d) Sustitución Polialfabética.", "c) Sustitución Homofónica.", "b) Sustitución Alfin.", "a) Sustitución Monoalfabético."] },
-                { q: "La cifra tipo Vigenère puede atacarse con cierta facilidad usando técnicas de:", a: 0, opts: ["d) Kasiski.", "a) Fuerza bruta.", "c) Índice de coincidencia.", "b) Criptoanálisis diferencial."] },
-                { q: "Cifrado por sustitución → cada símbolo se sustituye por otro símbolo. ¿Cuál o cuáles son los que podemos encontrarnos a la hora de realizar el método por sustitución?", a: 0, opts: ["c) Todas son correctas.", "a) Polialfabética.", "d) Monoalfabética.", "b) Homofónica."] },
-                { q: "La cifra del César corresponde a una:", a: 1, opts: ["b) Sustitución polialfabética.", "a) Sustitución monoalfabética.", "d) Transposición sin clave.", "c) Permutación simple."] },
-                { q: "Respecto de las funciones hash, seleccionar la afirmación incorrecta:", a: 1, opts: ["c. Lo habitual en las funciones hash es emplear longitudes de 160 bits", "a. Una función hash es segura si posee las características de unidireccionalidad, compresión, facilidad de cálculo, difusión, coslisión simple y colisión fuerte", "b. Permite la firma digital en los sistemas de clave pública", "d. La menos usadas actualmente son MD5 y SHA-1"] },
-                { q: "En relación con el cifrado asimétrico indica cuál es la afirmación incorrecta:", a: 1, opts: ["c. Soluciona el problema de la distribución de claves en el cifrado simétrico", "d. No permite autenticació", "b. A partir de una clave no se puede obtener fácilmente la otra"] },
-                { q: "El AES no es tipo Feistel porque cifra texto como:", a: 0, opts: ["b. bloques completos", "a. bloques de 128 bits", "c. bloques por mitades"] },
-                { q: "Si al cifrar en DES Ek1 (Ek1 (M)) = M, entonces:", a: 0, opts: ["b. La clave es débil", "c. La clave es muy débil"] },
-                { q: "Si en cifra simétrica la clave afecta sólo a una mitad del texto en claro en cada vuelta se habla de:", a: 0, opts: ["b. cifrado Feistel", "a. cifrado múltiple", "c. cifrado híbrido"] },
-                { q: "Respecto al algoritmo de cifrado en bloque DES, selecciona la afirmación incorrecta:", a: 0, opts: ["c. Tiene un tamaño de bloques de 64 bits, tamaño de clave de 56 bits y 14 rondas", "d. Funciona con 16 rondas, tamaño de clave de 56 bits y bloques de 64 bits.", "b. Se trata de una evolución del algoritmo Lucifer", "a. Es un algoritmo tipo Feistel"] },
-                { q: "En cada caja Si del DES entrarán b1 bits y saldrán b2 bits, y la relación b1 /b2 vendrá dada por:", a: 0, opts: ["c. 4/6", "a. 48/32", "d. 8/4", "b. 6/4"] },
-                { q: "En relación con el intercambio de claves de Diffie-Hellman, selecciona la respuesta correcta:", a: 0, opts: ["c. Está basado en el problema del logaritmo discreto", "b. Sólo se utiliza una clave pública para el intercambio", "d. No se hace necesario acordar una clave común entre los interlocutores", "a. Está basado en la factorización de números primos muy grandes"] },
-                { q: "Criptografía asimétrica. De las desventajas que mostramos a continuación, ¿cuál es la correcta?", a: 0, opts: ["a) El tamaño de las claves (seguras) es mayor.", "b) El criptograma ocupa menos espacio que el mensaje original.", "c) Todas son correctas.", "d) Es más rápida que la criptografía simétrica"] },
-                { q: "La envoltura digital, unos de sus puntos fuertes en el cifrado asimétrico es...", a: 0, opts: ["c) Transmitir de forma segura una clave a través de un medio inseguro (Diffie-Hellman, Certificados Digitales).", "a) Todas son correctas.", "d) Firma digital, autenticando mensaje."] },
-                { q: "¿Cuáles pueden ser las vulnerabilidades del algoritmo RSA?", a: 0, opts: ["a) Todas son correctas.", "b) Claves débiles, y claves demasiado cortas.", "d) Ataques de intermediario, ataques de texto claro escogido, ataques de módulo común.", "c) Ataques de exponente bajo."] },
-                { q: "¿Podrías indicarnos de los siguientes ejemplos, cuál o cuáles no son criptosistemas asimétricos?", a: 0, opts: ["b) RFA.", "c) Curvas elípticas.", "d) El Gamal.", "a) RSA."] },
-                { q: "En la criptografía simétrica, cuando tenemos por ejemplo el cifrado en bloque, utilizando el algoritmos DES, este, tiene una propiedad, que nos dice, \"Cada bit de texto cifrado es una función compleja de todos los bits de la clave y todos los bits del texto original (por bloques)\", es lo que denominamos:", a: 1, opts: ["d) Cambio de los bits de entrada.", "a) Dependencia entre símbolos.", "c) Todas son correctas."] },
-                { q: "¿Qué modo convierte el algoritmo en un generador de secuencia cifrante que genera una clave continua de longitud infinita bit a bit, siendo usado para implementar un cifrado en flujo?", a: 0, opts: ["d) OFB.", "b) CBS.", "c) CTR.", "a) CFB."] },
-                { q: "¿Cuántos tipos de criptografía simétrica podemos encontrarnos?", a: 0, opts: ["b) Ambos son correctos.", "d) Cifrado en flujo.", "c) Cifrado en bloque."] },
-                { q: "Ejemplos de cifrado en bloque. Modos de operación de clave simétrica. Indica cuál es la respuesta correcta.", a: 0, opts: ["b) ECB, CBC, CFB, OFB, CTR.", "c) ESB, CBC, CFB, OFB, CTR."] },
-                { q: "Criptografía asimétrica es también lo que denominamos...", a: 0, opts: ["b) Clave pública.", "a) Clave de confidencialidad.", "c) Clave asincrónica.", "d) Clave privada."] },
-                { q: "Funcionamiento teórico de la firma digital. Elige la respuesta correcta.", a: 1, opts: ["a) Todas son correctas.", "d) El receptor descifra el mensaje con la clave pública del emisor.", "c) Añadir en el mensaje un número secuencial o la fecha y hora de recepción del mensaje", "b) El emisor cifra el mensaje con su clave pública"] },
-                { q: "El algoritmo RSA se basa en el problema de:", a: 0, opts: ["d) Factorización de enteros grandes.", "c) Logaritmos discretos en un cuerpo finito.", "a) Curvas elípticas.", "b) Logaritmos discretos."] },
-                { q: "Confidencialidad + Integridad. Si ciframos un texto con la clave pública de Benito, ¿estamos asegurando la integridad?", a: 0, opts: ["b) No, porque cualquiera puede crear un mensaje al tener la clave pública.", "d) Sí, porque mientras no se obtenga la clave privada de Adela, el mensaje no puede ser descifrado", "a) Sí, se asegura la integridad, mientras que no se repita la clave pública.", "c) Depende del tamaño de la clave pública de Benito."] },
-                { q: "El resumen debe permitir detectar cambios en el mensaje. siendo la función hash que se aplica sobre el mensaje ‘m’, y que debe de cumplir:", a: 0, opts: ["d) Ambas opciones son las correctas.", "c) Ninguna de las dos opciones", "b) Compresión.", "a) Facilidad de cálculo."] },
-                { q: "Los usos de la criptografía asimétrica. Indícanos cual es la correcta", a: 1, opts: ["d) Confidencialidad, Identidad, Autenticación y no repudio.", "a) Confidencialidad, Integridad, Autenticación y no repudio", "b) Confidencialidad, Integridad, Autenticación y repudio."] }
-            ]
-        },
-        "ssi_tema3": {
-            nombre: "Tema 3 SSI",
-            datos: [
-                { q: "Correo electrónico seguro. Transmisión de claves. Cuando se envía un email por un webmail, ¿qué tipo de clave no se transmite nunca?", a: 0, opts: ["Clave privada", "CLave pública", "Ninguna clave se transmite", "Clave asimétrica"] },
-                { q: "Los certificados digitales incluyen los siguientes datos:", a: 0, opts: ["Todas son correctas.", "Nombre de usuario u organismos (o URL).", "Clave privada del usuario u organismos.", "Firma digital de un segundo."] },
-                { q: "Una combinación de servicios, políticas, procedimientos, acuerdos, procesos, algoritmos, estructuras de datos y gente que permitirá asegurar la identidad de los participantes en un intercambio de datos mediante la utilización de la criptografía. Es la definición de....", a: 0, opts: ["PKI", "PKIX", "PCI", "EJBCA"] },
-                { q: "Los ataques pasivos que pueden llegar a sufrir un correo electrónico son:", a: 0, opts: ["Interceptación.", "Interrupción", "Modificación", "Fabricación"] },
-                { q: "El Protocolo de la Oficina Postal - Versión 3. Al realizar la lectura de correos, ¿cuál es una de las principales características que realizaban por defecto al leerlos?", a: 0, opts: ["Borra los correos del servidor y los pasa al cliente local.", "Gestionar los correos en el servidor.", "Ninguna es correcta.", "Conexión segura usando TLS."] },
-                { q: "Características de los algoritmos soportados en la versión TLS 1.2:", a: 0, opts: ["Todas son correctas.", "Funciones resumen MD5, SHA-1, SHA-256.", "Intercambios de clave / autenticación.", "Algoritmos simétricos por bloques y en flujo"] },
-                { q: "¿Cuál fue el sucesor de SSL?", a: 0, opts: ["TLS", "SSL+", "RC4"] },
-                { q: "Para conseguir la autentificación del servidor por parte del cliente, permitiendo que estos a su vez seleccionen los algoritmos criptográficos que son soportados por ambos y estableciendo una conexión SSL/TLS cifrada. Es un protocolo denominado:", a: 0, opts: ["Ambas respuestas son correctas.", "HandShake.", "Ninguna es correcta.", "Apretón de manos."] },
-                { q: "TLS en agosto de 2018 versión 1.3, le fueron realizados cambios por lo que eliminaron los algoritmos MD5 y SHA-224. Siendo la nueva incorporación por un algoritmo de intercambio de claves (Diffie-Hellman ECDH), ¿a qué tipo de algoritmo nos estamos refiriendo?", a: 0, opts: ["Curve25519.", "Curve25119.", "Curve25219.", "Curve25019."] },
-                { q: "SSL/TLS record Protocol, en la cabecera, se realizan con longitud de 2 y 3 bytes, para rellenar datos en la cabecera. ¿Cómo se denomina la técnica para realizar el relleno?", a: 0, opts: ["Padding.", "Ninguna es correcta.", "Widen."] },
-                { q: "Cuando leemos. \"Cualquier proceso de negocio que depende de un sistema de información automatizado, además permitiendo a las empresas enlazar los sistemas de proceso de datos internos y externos de forma más eficiente y flexible, permitiendo mejorar en la comunicación con los proveedores y partners, y conociendo y satisfacer mejor las necesidades de los clientes\", nos estamos refiriendo al:", a: 0, opts: ["a) Negocio electrónico.", "b) Negocio on line.", "d) Comercio electrónico.", "c) Dropshipping"] },
-                { q: "La compra y venta de productos o servicios mediante el uso de sistemas electrónicos como Internet y otras redes de ordenadores, siendo algunos productos transportados \"virtualmente\", aunque otros requieren transporte físico y que son usados fundamentalmente en web, e-mail o apps móviles; es lo que definimos como:", a: 1, opts: ["c) Comercio virtual.", "d) Comercio electrónico.", "a) Páginas Web."] },
-                { q: "Se usa para enviar información de pedidos, seguimiento, etc. y para el envío de comunicaciones con el vendedor, usando protocolos tales como SMTPS, POP3S, IMAPS, pudiendo en algunos casos estar cifrada la información de extremo a extremo. Estamos hablando de:", a: 0, opts: ["d) E-mail.", "b) E-commerce.", "c) Comercio electrónico.", "a) Negocio electrónico."] },
-                { q: "Los medios de pagos que podemos encontrarnos por la red a la hora de realizar una transacción segura son:", a: 0, opts: ["d) Todas son correctas.", "c) Plataformas de pago.", "a) Tarjetas virtuales.", "b) 3D Secure."] },
-                { q: "¿Sobre qué se basa la moneda creada de forma electrónica?", a: 0, opts: ["c) Criptografía.", "d) Near Field Communication"] },
-                { q: "El funcionamiento de los protocolos de ámbito nativo de las VPNs se encuentra en capas o niveles. ¿Podría indicarnos cuál es la respuesta más correcta?", a: 0, opts: ["c) Todas son correctas.", "b) Capa de enlace de datos.", "a) Nivel 3."] },
-                { q: "¿En qué capa o capas se encuentran alojadas los protocolos para SSL/TLS?", a: 2, opts: ["a) 3 y 4.", "c) 4 y 5.", "d) 5 y 6."] },
-                { q: "El cliente confía en que el proveedor de la VPN mantenga la integridad de las líneas y use las técnicas necesarias para evitar el espionaje. Siendo una ventaja que el proveedor ofrezca garantías de calidad de servicio QoS (\"calidad de servicio\"), ¿a qué tipo de red VPN nos estamos refiriendo?", a: 0, opts: ["c) Trusted VPN.", "a) SSL / TLS VPN.", "b) Secure VPN."] },
-                { q: "Tecnologías de redes privadas virtuales. Según las distintas tipos de redes que podemos encontrarnos, la Secure VPN que NO ofrece.", a: 0, opts: ["c) Seguridad total.", "d) Encriptar el tráfico de un extremo de la red.", "a) El cifrado actúa como un túnel entre el origen y destino."] },
-                { q: "Los protocolos de funcionamiento en las VPN, ¿podría comentarnos cuál sería el protocolo más completo, que incluya la identificación, cifrado y gestión de claves?", a: 0, opts: ["a) IPsec.", "d) L2TP.", "b) PPTP."] },
-                { q: "Correo electrónico. Protocolo de Acceso a Mensajes de Internet. Versión 4. ¿Qué característica por defecto realiza al recibir los correos electrónicos?", a: 0, opts: ["b) Gestionar los correos en el servidor.", "a) Gestionar el envío de correos en el servidor.", "d) Gestionar y borrar los correos en el servidor."] },
-                { q: "Correo Seguro. ¿Cuáles son los tipos de ataques que pueden recibir?", a: 0, opts: ["b) Ataques pasivos y activos.", "c) Ataques de modificación y de escucha.", "d) Ataques back door."] },
-                { q: "Entre los años 1982 a 2008, se realizaban los envíos de correos de cliente a servidor y el encaminamiento entre servidores. Cuando queríamos realizar una conexión segura, usando seguridad de la capa de transporte. Nos estamos refiriendo al protocolo?.", a: 0, opts: ["d) SMTPS", "a) SMTP.", "b) POP3S.", "c) POP3"] },
-                { q: "Lista de Certificados Revocados. ¿Cómo se llaman las listas donde cada CA va a publicar los certificados revocados o caducados? Dichas listas contendrán el número de certificado dentro de la CA y serán de acceso público.", a: 1, opts: ["c) LOKI.", "a) CRLs.", "b) LCA."] },
-                { q: "Las entidades públicas o privadas cuya función es ofrecer confianza en los certificados que firman, generando certificados bajo demanda y facilitando su clave pública para comprobaciones, son lo que denominamos:", a: 1, opts: ["c) Organismos de certificación.", "b) Autoridades de certificación.", "d) Autoridades de control.", "a) Organizaciones de certificación."] },
-                { q: "¿Cuáles son los ataques activos que puede sufrir un correo electrónico?", a: 0, opts: ["a) Todos son correctos.", "b) Interrupción.", "c) Modificación.", "d) Fabricación."] },
-                { q: "En Poodle SSL, ¿cuál es el número de repeticiones SSL 3.0 necesarias para recuperar un byte de un mensaje cifrado?", a: 0, opts: ["b) 256.", "a) 512.", "c) 128."] },
-                { q: "¿Cuáles son las fases que corresponden al protocolo HandShake?", a: 1, opts: ["d) Saludos del cliente, saludo del servidor, autenticación del servidor, producción de la clave de sesión y fase de fin.", "c) Saludos del cliente, saludo del servidor, autenticación del cliente, autenticación del servidor, producción de la clave de sesión y fase de fin.", "a) Saludos del cliente, saludo del servidor, autenticación del cliente, autenticación del enlace del servidor, producción de la clave de sesión y fase de fin.", "b) Saludos del cliente, saludo del servidor, autenticación del cliente, producción de la clave de sesión y fase de fin."] },
-                { q: "En las fases del protocolo Handshake, cuando se realiza el server hello, el servidor envía al cliente su certificado digital con clave pública. ¿A qué tipo de certificado nos estamos refiriendo?", a: 0, opts: ["c) Digital X.509v3", "d) Rac4", "a) Digital X.519v3", "b) ARIA."] },
-                { q: "SSL/TLS ejecuta un protocolo de negociación para establecer una conexión segura. ¿A qué tipo de nivel se realiza esta negociación?", a: 1, opts: ["d) Ambas son correctas.", "c) Socket.", "a) Ninguna es correcta.", "b) Nombre máquina más puerto."] },
-                { q: "Características del protocolo SSL/TLS, siendo estos implementados en todos los navegadores. ¿Qué tipos de servicios son proporcionados?", a: 0, opts: ["d) Autentificación, integridad y confidencialidad.", "a) Verificación, integridad y confidencialidad.", "c) Autentificación, certificación y confidencialidad.", "b) Autentificación, integridad y transporte."] },
-                { q: "En la clasificación por proveedor/cliente, cuando se realizan concesiones de la administración pública (generalmente por subasta inversa), son las que se denominan.", a: 1, opts: ["d) B2C.", "a) B2G.", "b) B2B.", "c) B2E."] },
-                { q: "En la seguridad de las aplicaciones desarrolladas para dispositivos móviles, tales como teléfonos inteligentes y tabletas. Señala la opción correcta:", a: 0, opts: ["d) Depende del desarrollador de la aplicación (vendedor).", "a) Los mecanismos empleados suelen ser seguros.", "c) Está disponible el código fuente de la aplicación, sabiendo de esta forma como está desarrollada para futuras mejoras."] },
-                { q: "Cuando hablamos de la interacción no comercial entre gobierno y empresas, por ejemplo apoyo a la exportación, ¿de qué tipo de clasificación proveedor / cliente estamos refiriendo?", a: 1, opts: ["b) G2A.", "a) G2B.", "d) G2G.", "c) G2C."] },
-                { q: "En el negocio electrónico, se utiliza una tabla con la clasificación por proveedor / cliente. Cuales de las siguientes opciones es la correcta", a: 0, opts: ["b) B2B, B2C, B2E, B2G, G2B, G2G, G2C, C2C, C2B.", "c) B2B, B2C, B2E, B2G, G2A, G2G, G2C, C2C, C2B.", "d) B2B, B2C, B2E, B2J, G2B, G2G, G2C, C2C, C2B.", "a) B2B, B2C, B2E, B2G, G2B, G2G, G2C, C2A, C2B."] },
-                { q: "Para hacer transacciones de productos desde la red, se usan una serie de protocolos para conseguir conexiones web seguras, estas implican el uso de certificados digitales para la identificación del servidor, pudiendo requerir un certificado digital de usuario, siendo toda esta información encriptada. ¿Qué tipo de medidas de seguridad se implementan para conseguir lo descrito anteriormente?", a: 0, opts: ["b) Protocolo SSL / TLS.", "d) Protocolo TLS", "a) Protocolo IMAPS."] },
-                { q: "Las redes privadas virtuales tienen sus orígenes en dos motivaciones: objetivos organizadores y situaciones. Contesta la pregunta correcta de las siguientes opciones relacionada con los objetivos organizaciones.", a: 0, opts: ["a) Dar soporte a diversidad de comunicaciones de muy distintos lugares.", "c) Acuerdos entre organizaciones.", "b) Organizaciones dispersas en la geografía."] },
-                { q: "Tipos de VPN que podemos encontrar:", a: 1, opts: ["c) Todas son correctas.", "a) Trusted VPN", "d) MyHybrid VPN."] },
-                { q: "Definición. \"Es una red confiada que tiene partes controladas por una red segura. La parte segura estará implementada con cualquiera de los protocolos existentes. Aunque la parte confiada estará implementada con cualquiera de los protocolos existentes, estando todas las combinaciones permitidas\". Estamos hablando de la VPN:", a: 0, opts: ["b) Hybrid VPN.", "d) Trusted VPN.", "a) MyHybrid VPN.", "c) Secure VPN."] },
-                { q: "Es una red de datos que hace uso de las infraestructuras públicas de telecomunicaciones, manteniendo la privacidad usando protocolos de tunneling y procedimientos de seguridad. Es la definición de:", a: 0, opts: ["b) Todas son correctas.", "c) VPN.", "d) RedPrivada Virtual."] },
-                { q: "¿Qué ventajas pueden ofrecernos la calidad de servicio o QoS al cliente?", a: 0, opts: ["b) Todas son correctas.", "a) Alta velocidad.", "d) Baja tasa de pérdida de paquetes."] }
-            ]
-        },
-        "ssi_tema4": {
-            nombre: "Tema 4 SSI",
-            datos: [
-                { q: "¿Cuáles son los sistemas de ficheros soportados por Windows?", a: 0, opts: ["d) FAT16, FAT32, NTFS, NTFS5, ReFS.", "c) FAT16, FAT32, NTFS, NTFS3, ReFS."] },
-                { q: "Las directivas de bloqueo de cuentas, conforme a las políticas de seguridad de Windows, deben de tener una serie de requisitos. Elige la respuesta más completa.", a: 0, opts: ["c) Todas son correctas.", "b) Duración del bloqueo de cuentas.", "a) Umbral de bloqueos de la cuenta."] },
-                { q: "¿Quétipo de cifrado utiliza EFS por bloques?", a: 0, opts: ["b) Simétrico.", "c) TLS.", "a) Asimétrico."] },
-                { q: "La utilización de los conocimientos de seguridad en informática para realizar pruebas en sistemas, redes o dispositivos electrónicos, buscando vulnerabilidades que explotar con el fin de documentarlas para tomar medidas y sin poner en riesgo el sistema, es lo que define como:", a: 0, opts: ["c) Hacking ético."] },
-                { q: "Seguridad en Windows. Clasificación general. Sistema sin seguridad o con protección casi nula. Indícanos cual es la versión de Windows.", a: 0, opts: ["b) Todas son correctas.", "a) Windows 98."] },
-                { q: "Trabajamos con PGP y queremos revocar nuestra clave. Una vez que lo hemos hecho, con esa clave no podremos:", a: 0, opts: ["c. generar una nueva clave", "b. recuperar archivos antiguos cifrados con esa clave", "d. comprobar las propiedades de ésta en su anillo", "a. recibir mensajes cifrados de otros usuarios"] },
-                { q: "Las directivas de contraseñas, conforme a las políticas de seguridad de Windows, deben de tener una serie de requisitos. Elige la respuesta más completa.", a: 0, opts: ["c) Todas son correctas.", "d) Longitud mínima de las contraseñas."] },
-                { q: "Políticas de seguridad de Windows. Estructura. ¿Podrías indicarnos cuales son?", a: 0, opts: ["b) Todas son correctas."] },
-                { q: "Características de seguridad en Windows. ¿Cuántos tipos de cuentas de usuario existen?", a: 0, opts: ["d) 2", "c) 3"] },
-                { q: "Políticas de seguridad en Windows, políticas de directivas de cuentas. ¿Cuáles son las directivas que tiene Windows?", a: 0, opts: ["c) Directivas de contraseñas y bloqueo de cuentas.", "a) Directivas de control y usuario.", "b) Directivas de acceso y contraseñas.", "d) Directivas de usuario y bloqueo de cuentas."] },
-                { q: "Podrías indicarnos cuáles son las características principales de Linux", a: 0, opts: ["b) Sistema multitarea/multiprocesador/multiusuario.", "a) Todas son correctas."] }
-            ]
-        },
-        "ssi_tema5": {
-            nombre: "Tema 5 SSI",
-            datos: [
-                { q: "Elige la opción de todas las posibles organizaciones que usen las herramientas COBIT para la certificación de seguridad.", a: 0, opts: ["ISACA", "(ISC)2", "CompTIA", "Ec-Council"] },
-                { q: "El análisis de las vulnerabilidades de los sistemas, programas y procedimientos relativos a los sistemas informáticos de una organización se realiza con el fin de mejorar la seguridad de los datos, los equipos, las redes de comunicaciones y así garantizar el buen funcionamiento del sistema informático así como el cumplimiento de las normativas legales. Es lo que se denomina auditoría de:", a: 0, opts: ["Auditoría de seguridad informática."] },
-                { q: "¿Cuáles son los objetivos de las herramientas de auditoría informática en los sistemas de información y a la organización a la que sirve?", a: 0, opts: ["Diagnosticar y adecuarlos.", "Diagnosticar y dar soluciones al problema.", "Analizar y dar soluciones al problema."] },
-                { q: "De todas las opciones que nos presentan las herramientas de auditoría informática, ¿cuál de ellas está fundamentada en la tríada C-I-A. Confidentiality - Integrity - Availability?", a: 1, opts: ["ISO / IEC 20000.", "ISO / IEC 27002", "ITIL."] },
-                { q: "Es un estándar internacional sobre la gestión de servicios de las TICs. Los procesos se organizan en diversos grupos: requerimientos, planificación e implementación de servicios, seguridad de la información, resolución de incidentes, procesos de control, distribución, es a lo que nos referimos como:", a: 1, opts: ["ISO / IEC 20002.", "ISO / IEC 20000.", "ISO / IEC 27002."] },
-                { q: "Definiciones: \"Rama de las matemáticas (y en la actualidad de la informática) que hace uso de métodos matemáticos con el objeto principal de cifrar un mensaje o archivo por medio de un algoritmo y una o más claves, dando lugar a distintos criptosistemas que permiten proteger la confidencialidad y la integridad de los datos en la transmisión de la información\". Es lo que se define como:", a: 0, opts: ["a) Criptografía.", "c) Criptoanálisis."] },
-                { q: "Benito quiere enviar una carta con información relevante que nada más que Adela tiene que conocer, para encriptar el contenido del mensaje realiza la sustitución aplicada a cada símbolo que este varía en función de la posición que ocupa este dentro del texto claro. Correspondiendo la aplicación cíclica de ‘n’ cifrados, ¿qué tipo de cifrado está utilizando Benito?", a: 1, opts: ["b) Sustitución Alfin.", "d) Sustitución Polialfabética.", "a) Sustitución Homofónica.", "c) Sustitución Monoalfabético."] },
-                { q: "¿Cómo se denomina el método en el Cifrado de Vigenère que se realiza en el criptoanálisis para efectuar análisis estadísticos independientes agrupando los símbolos para estimar los emparejamientos entre palabras repetidas y la clave?", a: 0, opts: ["a) Método Kasiski.", "d) Método Vigenère.", "b) Método Análisis de frecuencias"] },
-                { q: "¿Qué nombre también puede recibir los criptosistemas simétricos?", a: 0, opts: ["d) Clave privada.", "c) Clave simétrica."] },
-                { q: "De los ejemplos que mostramos a continuación, ¿cuál no está cifrado en bloque en la criptografía simétrica?", a: 1, opts: ["b) Skipjack.", "d) Rsa.", "a) Idea.", "c) AES."] },
-                { q: "Una de las ventajas de los modos de operación, nos permite cifrar / descifrar los bloques independientemente del orden, por esta razón ante un error en un bloque, el resto de bloques no se ven afectados. Gracias a ello nos permite el procesamiento en paralelo. Que tipo de modo de operación estamos hablando.....", a: 1, opts: ["c) OFB.", "a) ECB.", "b) CBC."] },
-                { q: "Un cifrado en bloque para el que el tamaño de bloque es 1 y su transformación de cifrado cambia para cada símbolo de texto claro encriptado. Es lo que definimos como:", a: 0, opts: ["c) Cifrado en flujo.", "b) Asíncronos.", "d) Síncronos."] },
-                { q: "Las congruencias lineales nos dice que dada una secuencia suficientemente larga se puede deducir a, b y m. Teniendo tal conocimiento podemos decir si son seguras o no.", a: 0, opts: ["c) No son seguras.", "d) Depende del tamaño de la secuencia.", "b) Si son seguras.", "a) Depende del idioma del texto."] },
-                { q: "\"Es un ataque de texto claro elegido\". Para este tipo de ataque elegimos los textos a cifrar y tenemos acceso a los textos cifrados resultantes. ¿A qué tipo de criptoanálisis nos estamos refiriendo?.", a: 0, opts: ["b) Criptoanálisis diferencial.", "c) Criptoanálisis lineal."] },
-                { q: "En el cifrado de bloques, ¿qué tipos de ataques puede sufrir el algoritmo DES? Entendiendo como ataques aquellos que buscan analizar el mensaje para conocer su contenido.", a: 0, opts: ["d) Todos son correctos.", "c) Criptoanálisis por fuerza bruta."] },
-                { q: "Selecciona la respuesta correcta en relación con los certificados digitales:", a: 1, opts: ["c. El X.509 está basado en criptografía simétrica y firma digital", "a. Tienen que ser firmados por una AC", "b. Una de las certificaciones más usadas es X.509", "d. El X.509 está basado en criptografía asimétrica y firma digital"] },
-                { q: "Definiciones. \"El conjunto de procedimientos y técnicas para evaluar y controlar un sistema informático con el fin de constatar si sus actividades son correctas y de acuerdo a las normativas informáticas y generales prefijadas en la organización\".", a: 0, opts: ["b) Auditoría Informática.", "c) Organizaciones Itaca.", "a) Certificaciones ISO.", "d) Certificaciones de seguridad."] },
-                { q: "La auditoría informática y las certificaciones de seguridad están compuestas por organizaciones. ¿Cuáles son algunas de las más importantes?", a: 1, opts: ["a) ITACA.", "b) (ISC)^2", "c) EC-Consulting."] },
-                { q: "De todas las herramientas de auditoría que podemos encontrarnos en el mercado, podrías decirnos cuál o cuáles son las incorrectas.", a: 1, opts: ["a) Cobit.", "c) ISO / IEC 20002.", "b) ITIL.", "d) ISO / IEC 27002."] },
-                { q: "Organización fundada en 1989, siendo esta una asociación internacional sin ánimo de lucro, con 123.000 miembros, pero con la salvedad que se tiene que ir renovando los “Continuing Professional Education (CPE) credits”. Es la organización:", a: 1, opts: ["a) ISACA", "b) (ISC)^2", "c) EC-Council"] },
-                { q: "Es un tipo de auditoría informática:", a: 1, opts: ["c) Auditoría de productividad informática.", "a) Auditoría de certificación informática.", "b) Auditoría de complemento legal."] }
-            ]
-        },
-        "ssi_todos_temas": {
-            nombre: "Todos los Temas SSI",
-            datos: [
-                { q: "Los 4 elementos básicos de la seguridad informática son integridad, confidencialidad, no repudio, autenticación y:", a: 0, opts: ["Disponibilidad"] },
-                { q: "La cifra del César corresponde a una:", a: 0, opts: ["sustitución monoalfabética"] },
-                { q: "Correo electrónico seguro. Transmisión de claves. Cuando se envía un email por un webmail, ¿qué tipo de clave no se transmite nunca?", a: 0, opts: ["Clave privada"] },
-                { q: "¿Cuáles son los sistemas de ficheros soportados por Windows?", a: 0, opts: ["d) FAT16, FAT32, NTFS, NTFS5, ReFS.", "c) FAT16, FAT32, NTFS, NTFS3, ReFS.", "b) FAT, FAT32, NTFS, NTFS5, ReFS."] },
-                { q: "Elige la opción de todas las posibles organizaciones que usen las herramientas COBIT para la certificación de seguridad.", a: 0, opts: ["ISACA", "(ISC)2"] },
-                { q: "El análisis de las vulnerabilidades de los sistemas, programas y procedimientos relativos a los sistemas informáticos de una organización se realiza con el fin de mejorar la seguridad de los datos, los equipos, las redes de comunicaciones y así garantizar el buen funcionamiento del sistema informático así como el cumplimiento de las normativas legales. Es lo que se denomina auditoría de:", a: 0, opts: ["Auditoría de seguridad informática."] },
-                { q: "Los certificados digitales incluyen los siguientes datos:", a: 0, opts: ["Todas son correctas.", "Nombre de usuario u organismos (o URL)."] },
-                { q: "Las directivas de bloqueo de cuentas, conforme a las políticas de seguridad de Windows, deben de tener una serie de requisitos. Elige la respuesta más completa.", a: 0, opts: ["c) Todas son correctas.", "b) Duración del bloqueo de cuentas."] },
-                { q: "¿Cuáles son los objetivos de las herramientas de auditoría informática en los sistemas de información y a la organización a la que sirve?", a: 0, opts: ["Diagnosticar y adecuarlos.", "Diagnosticar y dar soluciones al problema."] },
-                { q: "Una combinación de servicios, políticas, procedimientos, acuerdos, procesos, algoritmos, estructuras de datos y gente que permitirá asegurar la identidad de los participantes en un intercambio de datos mediante la utilización de la criptografía. Es la definición de....", a: 0, opts: ["PKI", "PKIX"] },
-                { q: "Los ataques pasivos que pueden llegar a sufrir un correo electrónico son:", a: 0, opts: ["Interceptación.", "Interrupción"] },
-                { q: "El Protocolo de la Oficina Postal - Versión 3. Al realizar la lectura de correos, ¿cuál es una de las principales características que realizaban por defecto al leerlos?", a: 0, opts: ["Borra los correos del servidor y los pasa al cliente local."] },
-                { q: "¿Quétipo de cifrado utiliza EFS por bloques?", a: 0, opts: ["b) Simétrico.", "c) TLS."] },
-                { q: "De todas las opciones que nos presentan las herramientas de auditoría informática, ¿cuál de ellas está fundamentada en la tríada C-I-A. Confidentiality - Integrity - Availability?", a: 1, opts: ["ISO / IEC 20000.", "ISO / IEC 27002", "ITIL."] },
-                { q: "La utilización de los conocimientos de seguridad en informática para realizar pruebas en sistemas, redes o dispositivos electrónicos, buscando vulnerabilidades que explotar con el fin de documentarlas para tomar medidas y sin poner en riesgo el sistema, es lo que define como:", a: 0, opts: ["c) Hacking ético."] },
-                { q: "Seguridad en Windows. Clasificación general. Sistema sin seguridad o con protección casi nula. Indícanos cual es la versión de Windows.", a: 0, opts: ["b) Todas son correctas."] },
-                { q: "Características de los algoritmos soportados en la versión TLS 1.2:", a: 0, opts: ["Todas son correctas.", "Funciones resumen MD5, SHA-1, SHA-256."] },
-                { q: "Es un estándar internacional sobre la gestión de servicios de las TICs. Los procesos se organizan en diversos grupos: requerimientos, planificación e implementación de servicios, seguridad de la información, resolución de incidentes, procesos de control, distribución, es a lo que nos referimos como:", a: 1, opts: ["ISO / IEC 20002.", "ISO / IEC 20000."] },
-                { q: "Trabajamos con PGP y queremos revocar nuestra clave. Una vez que lo hemos hecho, con esa clave no podremos:", a: 0, opts: ["c. generar una nueva clave", "b. recuperar archivos antiguos cifrados con esa clave"] },
-                { q: "Definiciones: \"Rama de las matemáticas (y en la actualidad de la informática) que hace uso de métodos matemáticos con el objeto principal de cifrar un mensaje o archivo por medio de un algoritmo y una o más claves, dando lugar a distintos criptosistemas que permiten proteger la confidencialidad y la integridad de los datos en la transmisión de la información\". Es lo que se define como:", a: 0, opts: ["a) Criptografía."] },
-                { q: "Benito quiere enviar una carta con información relevante que nada más que Adela tiene que conocer, para encriptar el contenido del mensaje realiza la sustitución aplicada a cada símbolo que este varía en función de la posición que ocupa este dentro del texto claro. Correspondiendo la aplicación cíclica de ‘n’ cifrados, ¿qué tipo de cifrado está utilizando Benito?", a: 1, opts: ["b) Sustitución Alfin.", "d) Sustitución Polialfabética."] },
-                { q: "La cifra tipo Vigenère puede atacarse con cierta facilidad usando técnicas de:", a: 0, opts: ["Kasiski", "fuerza bruta"] },
-                { q: "Si una cifra se representa matemáticamente como Ci = Mi + Ki mod n, decimos que se trata de una cifra:", a: 1, opts: ["de Vigenère", "del César"] },
-                { q: "¿Cuál fue el sucesor de SSL?", a: 0, opts: ["TLS", "SSL+"] },
-                { q: "Las directivas de contraseñas, conforme a las políticas de seguridad de Windows, deben de tener una serie de requisitos. Elige la respuesta más completa.", a: 0, opts: ["c) Todas son correctas."] },
-                { q: "¿Cómo se denomina el método en el Cifrado de Vigenère que se realiza en el criptoanálisis para efectuar análisis estadísticos independientes agrupando los símbolos para estimar los emparejamientos entre palabras repetidas y la clave?", a: 0, opts: ["a) Método Kasiski."] },
-                { q: "¿Qué nombre también puede recibir los criptosistemas simétricos?", a: 0, opts: ["d) Clave privada.", "c) Clave simétrica."] },
-                { q: "Si al volver a cifrar un criptograma con la misma clave se obtiene el mensaje en claro, se habla de:", a: 1, opts: ["clave simétrica", "clave débil"] },
-                { q: "Políticas de seguridad de Windows. Estructura. ¿Podrías indicarnos cuales son?", a: 0, opts: ["b) Todas son correctas."] },
-                { q: "Para conseguir la autentificación del servidor por parte del cliente, permitiendo que estos a su vez seleccionen los algoritmos criptográficos que son soportados por ambos y estableciendo una conexión SSL/TLS cifrada. Es un protocolo denominado:", a: 0, opts: ["Ambas respuestas son correctas."] },
-                { q: "De los ejemplos que mostramos a continuación, ¿cuál no está cifrado en bloque en la criptografía simétrica?", a: 1, opts: ["b) Skipjack.", "d) Rsa.", "a) Idea."] },
-                { q: "TLS en agosto de 2018 versión 1.3, le fueron realizados cambios por lo que eliminaron los algoritmos MD5 y SHA-224. Siendo la nueva incorporación por un algoritmo de intercambio de claves (Diffie-Hellman ECDH), ¿a qué tipo de algoritmo nos estamos refiriendo?", a: 0, opts: ["Curve25519."] },
-                { q: "Características de seguridad en Windows. ¿Cuántos tipos de cuentas de usuario existen?", a: 0, opts: ["d) 2", "c) 3"] },
-                { q: "Respecto de los sistemas de clave simétrica, ¿cuál de las siguientes afirmaciones no es correcta?", a: 1, opts: ["Emplean la misma clave para cifrar y descifrar", "Computacionalmente son menos eficientes que los de clave asimétrica"] },
-                { q: "SSL/TLS record Protocol, en la cabecera, se realizan con longitud de 2 y 3 bytes, para rellenar datos en la cabecera. ¿Cómo se denomina la técnica para realizar el relleno?", a: 0, opts: ["Padding.", "Ninguna es correcta."] },
-                { q: "Cuando leemos. \"Cualquier proceso de negocio que depende de un sistema de información automatizado, además permitiendo a las empresas enlazar los sistemas de proceso de datos internos y externos de forma más eficiente y flexible, permitiendo mejorar en la comunicación con los proveedores y partners, y conociendo y satisfacer mejor las necesidades de los clientes\", nos estamos refiriendo al:", a: 0, opts: ["a) Negocio electrónico."] },
-                { q: "La compra y venta de productos o servicios mediante el uso de sistemas electrónicos como Internet y otras redes de ordenadores, siendo algunos productos transportados \"virtualmente\", aunque otros requieren transporte físico y que son usados fundamentalmente en web, e-mail o apps móviles; es lo que definimos como:", a: 1, opts: ["c) Comercio virtual.", "d) Comercio electrónico."] },
-                { q: "Cifrado en bloque. Arquitectura. Función criptográfica iterada ‘r’ veces o vueltas → ¿éstas deben formar grupo para que el conjunto de varias pasadas sucesivas con sus claves correspondientes no sean equivalentes a una pasada única con una subclave diferente?", a: 0, opts: ["No."] },
-                { q: "Se usa para enviar información de pedidos, seguimiento, etc. y para el envío de comunicaciones con el vendedor, usando protocolos tales como SMTPS, POP3S, IMAPS, pudiendo en algunos casos estar cifrada la información de extremo a extremo. Estamos hablando de:", a: 0, opts: ["d) E-mail."] },
-                { q: "Cuando se establece una correspondencia única para cada símbolo en todo el texto y es utilizada la sustitución monoalfabética, podemos decir que estamos utilizando algunos de estos ejemplos…", a: 0, opts: ["a) Todas son correctas."] },
-                { q: "De todos los elementos que tiene la arquitectura del cifrado en bloque. Indica cuál es la incorrecta.", a: 0, opts: ["Algoritmo de compresión de clave."] },
-                { q: "Los medios de pagos que podemos encontrarnos por la red a la hora de realizar una transacción segura son:", a: 0, opts: ["d) Todas son correctas."] },
-                { q: "¿Sobre qué se basa la moneda creada de forma electrónica?", a: 0, opts: ["c) Criptografía."] },
-                { q: "Si al cifrar en DES Ek1 (Ek1 (M)) = M , entonces:", a: 1, opts: ["La clave es semidébil", "La clave es débil"] },
-                { q: "El funcionamiento de los protocolos de ámbito nativo de las VPNs se encuentra en capas o niveles. ¿Podría indicarnos cuál es la respuesta más correcta?", a: 0, opts: ["c) Todas son correctas."] },
-                { q: "¿En qué capa o capas se encuentran alojadas los protocolos para SSL/TLS?", a: 1, opts: ["a) 3 y 4.", "c) 4 y 5."] },
-                { q: "Criptografía simétrica. Cifrado en bloque. Arquitectura. Elementos. Transformación final. Para que las operaciones de cifrado y de descifrado sean simétricas y se consiga la inversa de la transformación inicial, ¿se realiza la transformación inversa de la última vuelta de encriptación?", a: 1, opts: ["Sí.", "No.", "En ocasiones."] },
-                { q: "¿Qué algoritmo original tipo Feistel dio lugar al DES?", a: 0, opts: ["Lucifer."] },
-                { q: "Los criptosistemas simétricos o de clave privada, tienen una serie de características. ¿Puede indicarnos cuál o cuáles son las correctas?", a: 1, opts: ["La clave debe permanecer secreta y estar a disposición del emisor y el receptor.", "Todas son correctas."] },
-                { q: "Una de las vulnerabilidades que podemos encontrarnos en la criptografía simétrica en el cifrado en flujo es:", a: 1, opts: ["La semilla es el generador de la clave, conociendo esta podemos detectar cuál es la longitud de la clave.", "Nunca se debe usar una misma clave en dos mensajes."] },
-                { q: "El cliente confía en que el proveedor de la VPN mantenga la integridad de las líneas y use las técnicas necesarias para evitar el espionaje. Siendo una ventaja que el proveedor ofrezca garantías de calidad de servicio QoS (\"calidad de servicio\"), ¿a qué tipo de red VPN nos estamos refiriendo?", a: 0, opts: ["c) Trusted VPN."] },
-                { q: "Tecnologías de redes privadas virtuales. Según las distintas tipos de redes que podemos encontrarnos, la Secure VPN que NO ofrece.", a: 0, opts: ["c) Seguridad total."] },
-                { q: "Políticas de seguridad en Windows, políticas de directivas de cuentas. ¿Cuáles son las directivas que tiene Windows?", a: 0, opts: ["c) Directivas de contraseñas y bloqueo de cuentas."] },
-                { q: "¿Cómo se denomina el cifrado que divide el bloque inicial en dos mitades y en cada vuelta de encriptación se trabaja alternativamente con una de las mitades?", a: 1, opts: ["Todos son correctos.", "Cifrados de Feistel."] },
-                { q: "Una de las ventajas de los modos de operación, nos permite cifrar / descifrar los bloques independientemente del orden, por esta razón ante un error en un bloque, el resto de bloques no se ven afectados. Gracias a ello nos permite el procesamiento en paralelo. Que tipo de modo de operación estamos hablando.....", a: 1, opts: ["c) OFB.", "a) ECB."] },
-                { q: "\"Es un ataque de texto conocido\". De este tipo de ataque se conocen varios textos claros y sus correspondientes criptogramas. Teniendo 243 pares de textos claros/cifrados se pueden obtener 26 bits de la clave. ¿A qué tipo de criptoanálisis nos estamos refiriendo?", a: 0, opts: ["Criptoanálisis lineal."] },
-                { q: "Cuando la longitud de la cadena a cifrar no es múltiplo del tamaño de bloque hay que completar el último bloque con algún patrón (p.ej. con ceros). Nos encontramos con el problema de separar la parte que es relleno al descifrar. Para darle solución a ello se indica en el último byte añadido el número total de bytes añadidos. Es lo que se denomina:", a: 0, opts: ["Padding."] },
-                { q: "Un cifrado en bloque para el que el tamaño de bloque es 1 y su transformación de cifrado cambia para cada símbolo de texto claro encriptado. Es lo que definimos como:", a: 0, opts: ["c) Cifrado en flujo."] },
-                { q: "Las congruencias lineales nos dice que dada una secuencia suficientemente larga se puede deducir a, b y m. Teniendo tal conocimiento podemos decir si son seguras o no.", a: 0, opts: ["c) No son seguras."] },
-                { q: "Los protocolos de funcionamiento en las VPN, ¿podría comentarnos cuál sería el protocolo más completo, que incluya la identificación, cifrado y gestión de claves?", a: 0, opts: ["a) IPsec."] },
-                { q: "Correo electrónico. Protocolo de Acceso a Mensajes de Internet. Versión 4. ¿Qué característica por defecto realiza al recibir los correos electrónicos?", a: 0, opts: ["b) Gestionar los correos en el servidor."] },
-                { q: "Correo Seguro. ¿Cuáles son los tipos de ataques que pueden recibir?", a: 0, opts: ["b) Ataques pasivos y activos."] },
-                { q: "Entre los años 1982 a 2008, se realizaban los envíos de correos de cliente a servidor y el encaminamiento entre servidores. Cuando queríamos realizar una conexión segura, usando seguridad de la capa de transporte. Nos estamos refiriendo al protocolo?.", a: 0, opts: ["d) SMTPS"] },
-                { q: "Lista de Certificados Revocados. ¿Cómo se llaman las listas donde cada CA va a publicar los certificados revocados o caducados? Dichas listas contendrán el número de certificado dentro de la CA y serán de acceso público.", a: 1, opts: ["c) LOKI.", "a) CRLs."] },
-                { q: "Las entidades públicas o privadas cuya función es ofrecer confianza en los certificados que firman, generando certificados bajo demanda y facilitando su clave pública para comprobaciones, son lo que denominamos:", a: 1, opts: ["c) Organismos de certificación.", "b) Autoridades de certificación."] },
-                { q: "¿Cuáles son los ataques activos que puede sufrir un correo electrónico?", a: 0, opts: ["a) Todos son correctos."] },
-                { q: "\"Es un ataque de texto claro elegido\". Para este tipo de ataque elegimos los textos a cifrar y tenemos acceso a los textos cifrados resultantes. ¿A qué tipo de criptoanálisis nos estamos refiriendo?.", a: 0, opts: ["b) Criptoanálisis diferencial."] },
-                { q: "En el cifrado de bloques, ¿qué tipos de ataques puede sufrir el algoritmo DES? Entendiendo como ataques aquellos que buscan analizar el mensaje para conocer su contenido.", a: 0, opts: ["d) Todos son correctos."] },
-                { q: "En Poodle SSL, ¿cuál es el número de repeticiones SSL 3.0 necesarias para recuperar un byte de un mensaje cifrado?", a: 0, opts: ["b) 256."] },
-                { q: "¿Cuáles son las fases que corresponden al protocolo HandShake?", a: 0, opts: ["d) Saludos del cliente, saludo del servidor, autenticación del servidor, producción de la clave de sesión y fase de fin."] },
-                { q: "En las fases del protocolo Handshake, cuando se realiza el server hello, el servidor envía al cliente su certificado digital con clave pública. ¿A qué tipo de certificado nos estamos refiriendo?", a: 0, opts: ["c) Digital X.509v3"] },
-                { q: "SSL/TLS ejecuta un protocolo de negociación para establecer una conexión segura. ¿A qué tipo de nivel se realiza esta negociación?", a: 1, opts: ["d) Ambas son correctas.", "c) Socket."] },
-                { q: "Características del protocolo SSL/TLS, siendo estos implementados en todos los navegadores. ¿Qué tipos de servicios son proporcionados?", a: 0, opts: ["d) Autentificación, integridad y confidencialidad."] },
-                { q: "Selecciona la respuesta correcta en relación con los certificados digitales:", a: 1, opts: ["c. El X.509 está basado en criptografía simétrica y firma digital", "a. Tienen que ser firmados por una AC"] },
-                { q: "Definiciones. \"El conjunto de procedimientos y técnicas para evaluar y controlar un sistema informático con el fin de constatar si sus actividades son correctas y de acuerdo a las normativas informáticas y generales prefijadas en la organización\".", a: 0, opts: ["b) Auditoría Informática."] },
-                { q: "La auditoría informática y las certificaciones de seguridad están compuestas por organizaciones. ¿Cuáles son algunas de las más importantes?", a: 1, opts: ["a) ITACA.", "b) (ISC)^2"] },
-                { q: "De todas las herramientas de auditoría que podemos encontrarnos en el mercado, podrías decirnos cuál o cuáles son las incorrectas.", a: 1, opts: ["a) Cobit.", "c) ISO / IEC 20002."] },
-                { q: "Organización fundada en 1989, siendo esta una asociación internacional sin ánimo de lucro, con 123.000 miembros, pero con la salvedad que se tiene que ir renovando los “Continuing Professional Education (CPE) credits”. Es la organización:", a: 1, opts: ["a) ISACA", "b) (ISC)^2"] },
-                { q: "En la clasificación por proveedor/cliente, cuando se realizan concesiones de la administración pública (generalmente por subasta inversa), son las que se denominan.", a: 1, opts: ["d) B2C.", "a) B2G."] },
-                { q: "En la seguridad de las aplicaciones desarrolladas para dispositivos móviles, tales como teléfonos inteligentes y tabletas. Señala la opción correcta:", a: 0, opts: ["d) Depende del desarrollador de la aplicación (vendedor)."] },
-                { q: "Cuando hablamos de la interacción no comercial entre gobierno y empresas, por ejemplo apoyo a la exportación, ¿de qué tipo de clasificación proveedor / cliente estamos refiriendo?", a: 1, opts: ["b) G2A.", "a) G2B."] },
-                { q: "En el negocio electrónico, se utiliza una tabla con la clasificación por proveedor / cliente. Cuales de las siguientes opciones es la correcta", a: 0, opts: ["b) B2B, B2C, B2E, B2G, G2B, G2G, G2C, C2C, C2B."] },
-                { q: "Para hacer transacciones de productos desde la red, se usan una serie de protocolos para conseguir conexiones web seguras, estas implican el uso de certificados digitales para la identificación del servidor, pudiendo requerir un certificado digital de usuario, siendo toda esta información encriptada. ¿Qué tipo de medidas de seguridad se implementan para conseguir lo descrito anteriormente?", a: 0, opts: ["b) Protocolo SSL / TLS."] },
-                { q: "Las redes privadas virtuales tienen sus orígenes en dos motivaciones: objetivos organizadores y situaciones. Contesta la pregunta correcta de las siguientes opciones relacionada con los objetivos organizaciones.", a: 0, opts: ["a) Dar soporte a diversidad de comunicaciones de muy distintos lugares."] },
-                { q: "Tipos de VPN que podemos encontrar:", a: 1, opts: ["c) Todas son correctas.", "a) Trusted VPN"] },
-                { q: "Definición. \"Es una red confiada que tiene partes controladas por una red segura. La parte segura estará implementada con cualquiera de los protocolos existentes. Aunque la parte confiada estará implementada con cualquiera de los protocolos existentes, estando todas las combinaciones permitidas\". Estamos hablando de la VPN:", a: 0, opts: ["b) Hybrid VPN."] },
-                { q: "Es una red de datos que hace uso de las infraestructuras públicas de telecomunicaciones, manteniendo la privacidad usando protocolos de tunneling y procedimientos de seguridad. Es la definición de:", a: 0, opts: ["b) Todas son correctas."] },
-                { q: "¿Qué ventajas pueden ofrecernos la calidad de servicio o QoS al cliente?", a: 0, opts: ["b) Todas son correctas."] },
-                { q: "Es un tipo de auditoría informática:", a: 1, opts: ["c) Auditoría de productividad informática.", "a) Auditoría de certificación informática."] },
-                { q: "Podrías indicarnos cuáles son las características principales de Linux", a: 0, opts: ["b) Sistema multitarea/multiprocesador/multiusuario."] },
-                { q: "1. Cuando una empresa se debate el sistema informático que se piensa utilizar, y se definen los instrumentos que dan soporte al sistema de información, estos se componen de:", a: 0, opts: ["b) Elementos físicos y elementos lógicos."] },
-                { q: "2. Introducción a la seguridad en sistemas informáticos. A qué ámbitos se agrupan la seguridad informática.", a: 0, opts: ["d) Todas son correctas."] },
-                { q: "3. Los objetivos de los ataques que puede sufrir una empresa que se dedica a la gestión y protección de datos para una empresa pueden ser:", a: 0, opts: ["c) Hardware, Software y Datos"] },
-                { q: "4. Definición de seguridad física:", a: 0, opts: ["b) Aplicación de barreras físicas y procedimientos de control, como medidas de prevención y contramedidas ante amenazas a los recursos e información confidencial."] },
-                { q: "5. La empresa donde estamos encargados de custodiar toda la información sensible, cuando recibe un ataque denominado, \"Mirar por encima del hombro\" o Shoulder Surfing, nos estamos refiriendo a un ataque de:", a: 0, opts: ["b) Monitorización."] },
-                { q: "6. Los ataques a los bugs de los sistemas operativos se realizan mediante ataques de validación. Nos referimos a un ataque de:", a: 0, opts: ["c) Exploits"] },
-                { q: "7. Definición de seguridad lógica:", a: 1, opts: ["a) Aplicación de barreras y protocolos que resguarden el acceso a los datos y sólo se permita acceder a ellos a las personas autorizadas para hacerlo", "c) Aplicación de barreras y procedimientos que resguarden el acceso a los datos y sólo se permita acceder a ellos a las personas autorizadas para hacerlo."] },
-                { q: "8. Es la materia que se encarga de proteger los ordenadores, redes, sistemas informáticos y datos que en ellos se almacenan de agentes externos o internos que pudieran dañarlos o robarlos.", a: 0, opts: ["d) Seguridad Informática."] },
-                { q: "9. ¿Cuáles de estos desastres corresponde con la seguridad física?", a: 0, opts: ["a) Señales de radar."] },
-                { q: "10. Definiciones: \"Programas que se reproducen dentro del ordenador. Los sistemas se ralentizan. Algunos tienen el objetivo de recopilar información de nuestro ordenador\".", a: 0, opts: ["a) Gusanos."] },
-                { q: "11. Suplantar una IP y enviar una petición, esperando que cuando todos respondan se sature la máquina víctima. ¿A qué tipo de ataque DoS nos estamos refiriendo?", a: 1, opts: ["Bombardeo e-mail", "Tormenta broadcast"] },
-                { q: "12. ¿Cómo se podrían clasificar los ataques que puede sufrir un entorno informático?", a: 0, opts: ["Ambas son correctas"] },
-                { q: "13. Cuando el profesional de seguridad informática es formado para conocer los diferentes tipos de ataques que pueden sufrir el dispositivo que almacena la información, que siendo este encargado de preservar su integridad, dichos ataques podemos clasificarlos en:", a: 0, opts: ["Ataques de Monitorización, Validación, Denegación de Servicios y modificacion"] },
-                { q: "14. Suplantando la identidad en saltos: realizamos conexiones consecutivas suplantando a distintos usuarios (es decir el ataque va saltando de máquina en máquina). Nos estamos refiriendo a los ataques de validación:", a: 1, opts: ["Ip Spoofing - Looping.", "Spoofing - Looping."] },
-                { q: "15. Dentro de los ataques de modificación, siendo estos ataques con código malicioso que este se ejecuta cuando entramos en páginas web. ¿Cómo se denominan?", a: 0, opts: ["Todas son correctas"] },
-                { q: "16. \"La unión de miles de redes informáticas conectadas entre sí, mediante una serie de protocolos (TCP/IP), que hace posible, para cualquier usuario de una de estas redes, comunicarse o utilizar los servicios de cualquiera de las otras\". Es la definición de:", a: 0, opts: ["Internet"] },
-                { q: "17. La seguridad informática es la materia que se encarga de proteger los ordenadores, redes, sistemas informáticos y datos que en ellos se almacenan de agentes externos o internos que pudieran dañarlos o robarlos. Esta nos ofrece las siguientes propiedades:", a: 1, opts: ["Confidencialidad (privacidad), integridad, autentificación, indisponibilidad, no repudio, control, protección a la réplica, aislamiento y auditoría.", "Confidencialidad (privacidad), integridad, autentificación, disponibilidad, no repudio, control, protección a la réplica, aislamiento y auditoría."] },
-                { q: "18. La modificación sin autorización de datos o de los programas instalados en un sistema, incluido el borrado de ficheros, es lo que denominamos un ataque de:", a: 0, opts: ["Ataque de modificacion"] },
-                { q: "19. Dentro de la seguridad física podemos agruparlos en 3 tipos, ¿cuáles son?", a: 0, opts: ["Tipos de desastres, acciones hostiles y control de accesos."] },
-                { q: "20. En los ataques de monitorización, para saber qué puertos hay abiertos se lanzan peticiones de conexión completas, ¿a qué tipo de escaneo nos estamos refiriendo?", a: 0, opts: ["Escaneo TCP Connect"] },
-                { q: "Al encontrarnos un mensaje cifrado y necesitamos conocer la información que ha sido enviada por ese canal. ¿Cómo se llama el método de descifrar los mensajes cifrados?", a: 0, opts: ["a) Criptoanálisis."] },
-                { q: "Cuando Adela quiere enviar una información oculta para que solamente Benito tenga acceso a dicha información; utilizando un canal no seguro, realiza el cifrado con los símbolos de texto claro que se \"desordenan\" para formar el criptograma. Adela está usando:", a: 0, opts: ["a) Cifrado por Transposición."] },
-                { q: "¿Podrías indicarnos cuantos métodos de criptografía podemos encontrarnos según lo estudiado en la parte 2.1 del temario de SSI?", a: 0, opts: ["b) Sustitución y Transposición."] },
-                { q: "En el siglo IX a.C., Lacedemonio, hijo de Cimon; mitad del siglo V a. C., fue un militar ateniense, perteneciente a la poderosa familia de los Filaidas. Siendo comandante de la flota de Atenas y distinguido en la batalla de Síbota, se comunicaba con sus tropas en un palo con tira de cuero enrollada en espiral. En este se es cribe en columnas a lo largo del palo. ¿Qué método de transposición era?", a: 0, opts: ["b) Escitala."] },
-                { q: "Si una cifra se representa matemáticamente como Ci = Mi + Ki (mod n), decimos que se trata de una cifra:", a: 1, opts: ["a) De Vigenère.", "c) Del César."] },
-                { q: "Una contramedida para intentar evitar el análisis de frecuencias, se usa que a cada símbolo del alfabeto del espacio del mensaje (M) le corresponden varios símbolos del alfabeto del espacio del texto cifrado (C). Dicha correspondencia se realiza de manera que los símbolos de M con mayor frecuencia tengan más símbolos asignados en C, siendo este tipo de sustitución consiguiente en uniformizar las frecuencias de símbolos del criptograma para dificultar el análisis de frecuencias. Dentro del método de sustitución, ¿cuál de las siguientes opciones tiene este sistema?", a: 1, opts: ["d) Sustitución Polialfabética.", "c) Sustitución Homofónica."] },
-                { q: "La cifra tipo Vigenère puede atacarse con cierta facilidad usando técnicas de:", a: 0, opts: ["d) Kasiski."] },
-                { q: "Cifrado por sustitución → cada símbolo se sustituye por otro símbolo. ¿Cuál o cuáles son los que podemos encontrarnos a la hora de realizar el método por sustitución?", a: 0, opts: ["c) Todas son correctas."] },
-                { q: "La cifra del César corresponde a una:", a: 1, opts: ["b) Sustitución polialfabética.", "a) Sustitución monoalfabética."] },
-                { q: "Respecto de las funciones hash, seleccionar la afirmación incorrecta:", a: 1, opts: ["c. Lo habitual en las funciones hash es emplear longitudes de 160 bits", "a. Una función hash es segura si posee las características de unidireccionalidad, compresión, facilidad de cálculo, difusión, coslisión simple y colisión fuerte"] },
-                { q: "En relación con el cifrado asimétrico indica cuál es la afirmación incorrecta:", a: 1, opts: ["c. Soluciona el problema de la distribución de claves en el cifrado simétrico", "d. No permite autenticació"] },
-                { q: "El AES no es tipo Feistel porque cifra texto como:", a: 1, opts: ["a. bloques de 128 bits", "b. bloques completos"] },
-                { q: "Si al cifrar en DES Ek1 (Ek1 (M)) = M, entonces:", a: 0, opts: ["b. La clave es débil"] },
-                { q: "Si en cifra simétrica la clave afecta sólo a una mitad del texto en claro en cada vuelta se habla de:", a: 0, opts: ["b. cifrado Feistel"] },
-                { q: "Respecto al algoritmo de cifrado en bloque DES, selecciona la afirmación incorrecta:", a: 0, opts: ["c. Tiene un tamaño de bloques de 64 bits, tamaño de clave de 56 bits y 14 rondas"] },
-                { q: "En cada caja Si del DES entrarán b1 bits y saldrán b2 bits, y la relación b1 /b2 vendrá dada por:", a: 1, opts: ["b. 6/4", "c. 4/6"] },
-                { q: "En relación con el intercambio de claves de Diffie-Hellman, selecciona la respuesta correcta:", a: 0, opts: ["c. Está basado en el problema del logaritmo discreto"] },
-                { q: "Criptografía asimétrica. De las desventajas que mostramos a continuación, ¿cuál es la correcta?", a: 0, opts: ["a) El tamaño de las claves (seguras) es mayor."] },
-                { q: "La envoltura digital, unos de sus puntos fuertes en el cifrado asimétrico es...", a: 1, opts: ["a) Todas son correctas.", "c) Transmitir de forma segura una clave a través de un medio inseguro (Diffie-Hellman, Certificados Digitales)."] },
-                { q: "¿Cuáles pueden ser las vulnerabilidades del algoritmo RSA?", a: 0, opts: ["a) Todas son correctas."] },
-                { q: "¿Podrías indicarnos de los siguientes ejemplos, cuál o cuáles no son criptosistemas asimétricos?", a: 1, opts: ["b) RFA.", "a) RSA."] },
-                { q: "En la criptografía simétrica, cuando tenemos por ejemplo el cifrado en bloque, utilizando el algoritmos DES, este, tiene una propiedad, que nos dice, \"Cada bit de texto cifrado es una función compleja de todos los bits de la clave y todos los bits del texto original (por bloques)\", es lo que denominamos:", a: 0, opts: ["a) Dependencia entre símbolos."] },
-                { q: "¿Qué modo convierte el algoritmo en un generador de secuencia cifrante que genera una clave continua de longitud infinita bit a bit, siendo usado para implementar un cifrado en flujo?", a: 0, opts: ["d) OFB."] },
-                { q: "¿Cuántos tipos de criptografía simétrica podemos encontrarnos?", a: 0, opts: ["b) Ambos son correctos."] },
-                { q: "Ejemplos de cifrado en bloque. Modos de operación de clave simétrica. Indica cuál es la respuesta correcta.", a: 0, opts: ["b) ECB, CBC, CFB, OFB, CTR."] },
-                { q: "Criptografía asimétrica es también lo que denominamos...", a: 0, opts: ["b) Clave pública."] },
-                { q: "Funcionamiento teórico de la firma digital. Elige la respuesta correcta.", a: 1, opts: ["c) Añadir en el mensaje un número secuencial o la fecha y hora de recepción del mensaje", "b) El emisor cifra el mensaje con su clave pública"] },
-                { q: "El algoritmo RSA se basa en el problema de:", a: 0, opts: ["d) Factorización de enteros grandes."] },
-                { q: "Confidencialidad + Integridad. Si ciframos un texto con la clave pública de Benito, ¿estamos asegurando la integridad?", a: 0, opts: ["b) No, porque cualquiera puede crear un mensaje al tener la clave pública."] },
-                { q: "El resumen debe permitir detectar cambios en el mensaje. siendo la función hash que se aplica sobre el mensaje ‘m’, y que debe de cumplir:", a: 0, opts: ["d) Ambas opciones son las correctas."] },
-                { q: "Los usos de la criptografía asimétrica. Indícanos cual es la correcta", a: 0, opts: ["a) Confidencialidad, Integridad, Autenticación y no repudio"] }
-            ]
-        },
+
+        // ---------------------------------------------------------
+        // 🔹 BANCO: POSIBLES PREGUNTAS
+        // ---------------------------------------------------------
         "ssi_posibles": {
             nombre: "Posibles Preguntas",
             datos: [
-                { q: "Si Benito y Adela buscan garantizar integridad, ¿qué deberían usar?", a: 0, opts: ["c1 y h", "m + c1", "c2", "Ninguna de las anteriores"] },
-                { q: "¿Cuál de los siguientes elementos NO corresponde a seguridad física?", a: 2, opts: ["Suelo falso", "Suministrador de energía continuo", "Firewall hardware", "Huellas dactilares"] },
-                { q: "¿Qué efecto tiene el bit SUID (Set User ID) al estar activado en un archivo ejecutable en Linux?", a: 2, opts: ["Abre scripts directamente desde el kernel", "Elimina privilegios temporales del usuario actual", "Proporciona acceso de superusuario (root) al ejecutar el archivo", "Hace que el archivo solo se pueda ejecutar con permisos 000"] },
-                { q: "¿Cuál de las siguientes afirmaciones es correcta sobre el rendimiento de una red VPN?", a: 2, opts: ["Las VPN por software son más rápidas que las de hardware", "Las VPN por hardware son menos seguras que las de software", "Las VPN por hardware ofrecen mayor eficiencia y rendimiento", "Las VPN por software son mejores para cifrar extremo a extremo"] },
-                { q: "¿Qué afirmación es correcta sobre MAC y MDC?", a: 2, opts: ["Ambos usan claves públicas", "MDC proporciona autenticación", "MAC requiere clave y MDC no", "MAC y MDC no sirven para detectar alteraciones"] },
-                { q: "¿Qué tipo de criptografía permite obtener una clave pública a partir de una clave privada (pero no al revés)?", a: 1, opts: ["Simétrica", "Asimétrica", "Cifrado César", "Substitución monoalfabética"] },
-                { q: "¿Qué tipo de clave usa un algoritmo con iteraciones r veces como DES o AES?", a: 2, opts: ["Asimétrica", "Híbrida", "Simétrica", "Hash"] },
-                { q: "¿Qué es el espacio de claves en criptografía?", a: 2, opts: ["El número de hashes posibles", "El conjunto de claves públicas conocidas", "El conjunto de todas las claves posibles en un criptosistema", "La unión de clave privada + clave pública"] },
-                { q: "¿Cuál es la función de un algoritmo hash en criptografía?", a: 2, opts: ["Cifrar mensajes", "Comprimir archivos", "Asegurar la autenticidad y la integridad", "Generar claves públicas"] },
-                { q: "¿Qué describe mejor el ataque de tipo 'Shoulder Surfing'?", a: 2, opts: ["Escucha pasiva de una red", "Acceso físico al servidor", "Observación directa para robar información", "Uso de fuerza bruta para obtener contraseñas"] },
-                { q: "¿Cuál de las siguientes afirmaciones sobre la firma digital NO es correcta?", a: 2, opts: ["Sirve para verificar la identidad del remitente", "Garantiza la integridad del mensaje", "La identidad cambia en cada documento", "Utiliza la clave privada del emisor"] },
-                { q: "¿Cuál de los siguientes algoritmos es asimétrico?", a: 1, opts: ["AES", "RSA", "SHA-256", "DES"] },
-                { q: "Si buscamos confidencialidad, ¿qué es lo que queremos garantizar?", a: 1, opts: ["Que el mensaje se mantenga sin alterar", "Que el mensaje solo pueda ser leído por el receptor autorizado", "Que el mensaje pueda ser leído por todos", "Que se pueda verificar el remitente"] },
-                { q: "¿Cuál de los siguientes algoritmos no es un cifrado por sustitución?", a: 0, opts: ["Cuadrado", "Homofónico", "César", "Vigenère"] },
-                { q: "¿Qué tipo de algoritmo criptográfico representa la Escítala utilizada por los espartanos?", a: 2, opts: ["Sustitución monoalfabética", "Cifrado asimétrico", "Transposición", "Función hash"] },
-                { q: "Si necesito acceder al disco duro de mi empresa desde una ubicación remota, ¿cuál es la forma más segura y recomendada?", a: 2, opts: ["Usar el navegador (WWW)", "Enviar un correo electrónico al administrador", "Conectarse por VPN", "Realizar un ping al servidor"] },
-                { q: "¿Cuál de las siguientes tecnologías proporciona cifrado extremo a extremo (E2E)?", a: 2, opts: ["HTTP", "VPN empresarial", "Signal", "TLS 1.0"] },
-                { q: "¿Qué es una estructura de Feistel?", a: 2, opts: ["Un algoritmo de cifrado por flujo", "Un cifrado de sustitución monoalfabética", "Una estructura que cifra una mitad del bloque y la mezcla con la otra", "Un método de clave pública usado en SSL"] },
-                { q: "¿Qué función cumple una firma digital dentro del contexto de la seguridad informática?", a: 1, opts: ["Asegurar la confidencialidad del mensaje", "Confirmar la identidad del emisor y garantizar la integridad del mensaje", "Cifrar los mensajes entre emisor y receptor", "Proteger la red frente a ataques externos"] },
-                { q: "¿Qué es PayPal dentro del contexto del comercio electrónico?", a: 3, opts: ["Una red de comunicación entre gobiernos.", "Una plataforma de compraventa tipo B2B.", "Un protocolo de seguridad entre bancos.", "Un sistema de pago digital."] },
-                { q: "¿Qué es el espacio de claves en criptografía?", a: 1, opts: ["La longitud del bloque cifrado", "El total de posibles claves que se pueden usar en un sistema criptográfico", "El almacenamiento de claves públicas en un servidor", "El número de usuarios autenticados en un sistema"] },
-                { q: "¿Cuál de los siguientes algoritmos es de tipo asimétrico?", a: 2, opts: ["AES", "DES", "GPG", "RC4"] },
-                { q: "¿Cuál de los siguientes términos no corresponde a un modelo válido de comercio electrónico?", a: 2, opts: ["B2B", "C2C", "E2E", "G2G"] },
-                { q: "PGP4win: ¿Qué cifra para garantizar confidencialidad? Para que un mensaje enviado con PGP4win sea confidencial, ¿qué clave debe usarse para cifrarlo?", a: 0, opts: ["La clave pública del receptor", "La clave privada del receptor", "La clave pública del emisor", "El hash del mensaje"] },
-                { q: "¿Qué tipo de cifrado utilizaban los espartanos mediante una tira de cuero enrollada en un bastón, que solo podía leerse si se enrollaba en un bastón del mismo diámetro?", a: 2, opts: ["Cifrado César", "Transposición por columnas", "Escítala", "Cifrado de Vigenère"] },
-                { q: "¿Qué caracteriza a un criptosistema simétrico?", a: 2, opts: ["Utiliza claves diferentes para cifrar y descifrar", "Solo cifra y no descifra", "Utiliza la misma clave para cifrar y descifrar", "Genera claves de 1024 bits"] },
-                { q: "¿A qué corresponde la Escítala como método criptográfico?", a: 1, opts: ["Sustitución monoalfabética", "Cifrado por transposición en espiral", "Polialfabético tipo Vigenère", "Algoritmo asimétrico"] },
-                { q: "¿Qué ocurre en un ataque de tipo Man-in-the-middle (MitM)?", a: 0, opts: ["El atacante intercepta y modifica la comunicación entre dos partes sin que lo sepan", "El atacante bloquea totalmente la comunicación", "El atacante suplanta una dirección IP para hacer flooding", "El atacante se comunica con el servidor usando fuerza bruta"] },
-                { q: "¿Qué debemos hacer para asegurar la integridad de un mensaje?", a: 2, opts: ["Usar TLS", "Comprimir el archivo", "Cifrar el hash con la clave privada del emisor", "Cifrar con clave pública del receptor"] },
-                { q: "¿Para garantizar la confidencialidad al enviar un mensaje a Pablo usando PGP, qué clave se debe utilizar?", a: 1, opts: ["La clave privada de Pablo", "La clave pública de Pablo", "La clave pública del emisor", "La clave simétrica del sistema"] },
-                { q: "¿Cuál es la función principal del protocolo TLS en una comunicación?", a: 2, opts: ["Filtrar contenido de red", "Comprimir paquetes de datos", "Transportar datos de forma segura mediante cifrado", "Generar claves públicas"] },
-                { q: "El cifrado de Vigenère utiliza un alfabeto de 26 letras. ¿Qué característica es importante tener en cuenta al aplicarlo?", a: 2, opts: ["El alfabeto contiene la letra ñ", "El cifrado solo admite texto de 10 caracteres", "El abecedario usado es el latino sin la letra ñ", "Solo funciona con claves de longitud par"] },
-                { q: "¿Cuál es el medio más seguro para acceder al disco duro de una empresa desde nuestro ordenador?", a: 2, opts: ["FTMail", "WWW", "VPN", "B2C"] },
-                { q: "¿Qué es el padding en criptografía?", a: 2, opts: ["Una función hash que comprime el texto", "Una técnica de sustitución polialfabética", "Un método para rellenar bloques de datos hasta alcanzar la longitud adecuada para cifrado", "Un modo de cifrado asimétrico con RSA"] },
-                { q: "Dado el conjunto siguiente: KEK, MEM, HEH, DED. Si se indica que M = K, ¿qué representa este conjunto?", a: 2, opts: ["Un conjunto aleatorio de valores sin significado.", "Una matriz donde todos los caracteres son letras sin repetición.", "Una matriz de 4x3 donde todas las filas contienen el mismo patrón de letras con M = K.", "Una tabla hash con letras equivalentes en posiciones simétricas."] },
-                { q: "¿Qué caracteriza a la criptografía simétrica?", a: 2, opts: ["Usa claves públicas para cifrar", "Usa claves diferentes para cifrar y descifrar", "Usa la misma clave para cifrar y descifrar", "No requiere clave para descifrar"] },
-                { q: "¿Cuál de los siguientes cifrados no se basa en sustitución?", a: 2, opts: ["César", "Vigenère", "Transposición por columnas", "Cifrado homofónico"] },
-                { q: "Durante un handshake en una conexión segura (TLS/VPN), ¿cuál de los siguientes elementos no forma parte del proceso?", a: 3, opts: ["Clave pública", "Algoritmos de cifrado", "Saludo inicial (\"Hello\")", "Dirección física (MAC)"] },
-                { q: "¿Qué puerto utiliza SSL/TLS por defecto para comunicaciones seguras?", a: 3, opts: ["20", "21", "80", "443"] },
-                { q: "¿Cuál de los siguientes métodos de transposición organiza el texto en columnas y lo reordena siguiendo un patrón de clave numérica?", a: 1, opts: ["Sustitución homofónica", "Cifrado por columnas", "Escítala", "Vigenère"] },
-                { q: "Si Adela quiere enviar un mensaje confidencial a Benito, ¿qué clave debe usar para cifrarlo?", a: 2, opts: ["Su clave pública", "Su clave privada", "La clave pública de Benito", "La clave privada de Benito"] },
-                { q: "¿Para qué sirve analizar el conjunto de elementos de un criptosistema?", a: 2, opts: ["Para cifrar nuevos mensajes", "Para calcular el hash", "Para criptoanalizarlo y encontrar debilidades", "Para verificar firmas digitales"] },
-                { q: "¿Qué es el ataque Meet in the Middle y en qué contexto se usa?", a: 1, opts: ["Es un handshake entre cliente y servidor", "Es un ataque que reduce la seguridad de cifrados múltiples como doble DES", "Es una técnica para evitar padding", "Es un protocolo de VPN"] },
-                { q: "¿Qué tipo de red VPN permite garantizar Calidad de Servicio (QoS)?", a: 3, opts: ["VPN abierta (OpenVPN)", "VPN IPsec", "VPN por software", "VPN Trusted"] },
-                { q: "¿Qué debe enviarle a Benito para garantizar confidencialidad?", a: 2, opts: ["c1 y h", "m + c1", "c2", "Ninguna de las anteriores"] },
-                { q: "¿Qué describe correctamente la envoltura digital?", a: 2, opts: ["Es un algoritmo de hash", "Es un cifrado de flujo simétrico", "Es una técnica que combina cifrado simétrico y Diffie-Hellman", "Es un tipo de firma digital"] },
-                { q: "El ataque Denial of Service (DoS) es:", a: 1, opts: ["Un ataque pasivo", "Un ataque activo", "Un algoritmo de cifrado", "Una forma de firma digital"] },
-                { q: "¿Qué es la envoltura digital?", a: 2, opts: ["Un tipo de cifrado de flujo", "Un formato de hash", "Uso de cifrado simétrico + intercambio de clave con cifrado asimétrico", "Un protocolo de autenticación"] },
-                { q: "PGP4win: Verificar archivo no malicioso. ¿Cómo puedes comprobar con PGP4win que un archivo no ha sido modificado y proviene del emisor legítimo?", a: 2, opts: ["Cifrando el archivo con tu clave pública", "Comparando el tamaño del archivo", "Verificando la firma digital del archivo con la clave pública del emisor", "Cifrando el archivo con la clave privada del emisor"] },
-                { q: "¿Qué caracteriza a un cifrado de sustitución?", a: 0, opts: ["Cada símbolo o grupo de símbolos se reemplaza por otro símbolo o grupo", "El mensaje se divide en columnas y se desordena", "Se usa un padding para completar bloques", "Cada bit del mensaje se cifra con la clave pública"] },
-                { q: "¿Qué es la expansión de claves en los cifrados modernos por bloques como AES o DES?", a: 1, opts: ["El proceso de agregar bits de relleno a la clave", "El método de generar subclaves a partir de la clave principal para usarlas en cada ronda del cifrado", "La técnica de aumentar el tamaño del mensaje", "La sustitución de claves por tablas S-box"] },
-                { q: "En PGP4win, ¿para qué sirve copiar una clave pública en un fichero?", a: 2, opts: ["Para eliminarla del sistema", "Para almacenarla de forma insegura", "Para compartirla con otros usuarios", "Para cifrarla con una clave simétrica"] },
-                { q: "¿Cuál de las siguientes afirmaciones es verdadera sobre el criptoanálisis?", a: 1, opts: ["El cifrado de César es polialfabético", "Criptoanálisis es un método usado por criptoanalistas", "Criptoanálisis solo se aplica a cifras modernas", "El cifrado César usa claves públicas y privadas"] },
-                { q: "En PGP4win, si copiamos la clave pública de nuestro amigo, ¿qué podemos hacer con ella?", a: 2, opts: ["Descomprimir su carpeta", "Cambiar su contraseña", "Enviarle mensajes confidenciales cifrados", "Obtener su clave privada"] },
-                { q: "¿Qué es la Armadura ASCII en criptografía?", a: 2, opts: ["Un cifrado binario", "Un algoritmo de transposición", "Una codificación de datos binarios en caracteres imprimibles", "Un protocolo de seguridad"] },
-                { q: "¿Qué es 3D Secure en el contexto del comercio electrónico?", a: 1, opts: ["Un algoritmo de cifrado RSA para tarjetas", "Un protocolo de autenticación adicional para pagos en línea con tarjeta", "Un tipo de VPN para asegurar canales de compra", "Un sistema de encriptación de base de datos de clientes"] },
-                { q: "Para garantizar la integridad del mensaje que envía Adela a Benito, ¿qué operación debe realizar Adela antes de enviarlo?", a: 0, opts: ["Aplicar un hash y firmarlo con su clave privada", "Cifrar con la clave pública de Benito", "Verificar con la clave pública de Benito", "Enviar el mensaje sin modificarlo"] },
-                { q: "¿Qué tipo de criptografía realiza iteraciones 'r' veces sobre los bloques?", a: 0, opts: ["Criptografía clásica", "Criptografía cuántica", "Criptografía con curvas elípticas", "Esteganografía"] },
-                { q: "¿Qué similitud comparten el cifrado por columnas y el de Vigenère?", a: 2, opts: ["Ambos son de sustitución monoalfabética", "Ambos son de transposición física", "Ambos utilizan una clave para reorganizar el texto", "Ambos cifran solo en bloques de 8 bits"] },
-                { q: "Si ciframos un mensaje y luego lo criptoanalizamos correctamente, ¿qué obtenemos?", a: 2, opts: ["Un hash", "El mensaje cifrado", "El texto claro original", "El resumen digital"] },
-                { q: "¿Cuál es la función principal del protocolo de Diffie-Hellman en criptografía?", a: 1, opts: ["Enviar mensajes cifrados sin clave", "Intercambiar claves de forma segura sobre un canal inseguro", "Firmar digitalmente un documento", "Generar funciones hash"] },
-                { q: "¿Cuál de los siguientes elementos es un ejemplo de criptografía asimétrica o pública?", a: 2, opts: ["SHA-256", "AES", "RSA", "RC4"] },
-                { q: "¿Qué método criptográfico menciona el uso de múltiples iteraciones o rondas para fortalecer el proceso de cifrado?", a: 2, opts: ["Vigenère", "Transposición simple", "Esquema de Feistel", "XOR básico"] },
-                { q: "¿Con qué se verifica una firma digital?", a: 2, opts: ["Con la clave privada del emisor", "Con el hash del receptor", "Con la clave pública del emisor", "Con la clave pública del receptor"] },
-                { q: "¿Por qué el Doble DES no proporciona una seguridad efectiva de 112 bits?", a: 2, opts: ["Porque se utiliza el mismo bloque varias veces", "Porque la clave es demasiado corta", "Por la vulnerabilidad al ataque Meet-in-the-Middle", "Porque no usa vector de inicialización"] },
-                { q: "¿Qué indica el prefijo \"https://\" en una página web?", a: 2, opts: ["Que el servidor es propiedad del gobierno", "Que el contenido es autenticado por el navegador", "Que la página web está usando un canal de comunicación cifrado con TLS", "Que solo se puede acceder desde dispositivos móviles"] },
-                { q: "¿Qué hace el comando SUID en sistemas Linux?", a: 2, opts: ["Abre scripts directamente", "Asegura que todos los permisos estén en 0", "Permite ejecutar archivos con los privilegios del propietario (root, por ejemplo)", "Elimina claves de usuario"] },
-                { q: "¿Qué ocurre durante el proceso de \"handshake\" en una conexión segura como TLS o VPN?", a: 1, opts: ["Se realiza el hash del mensaje antes de enviarlo", "El cliente dice “Hola”, el servidor responde con “Hola” e intercambian certificados y claves", "El cliente firma el certificado del servidor", "Se cifra directamente el mensaje sin negociación"] },
-                { q: "Benito recibe un mensaje firmado por Adela. ¿Cómo puede verificar que fue enviado por ella y que no fue modificado?", a: 1, opts: ["Aplicando su propia clave privada", "Descifrando el hash con la clave pública de Adela y comparándolo con el nuevo hash del mensaje", "Comparando la clave simétrica de Adela", "Cifrando nuevamente el mensaje"] },
-                { q: "PGP4win: ¿Para qué sirve copiar la clave pública en un archivo? ¿Cuál es el propósito de guardar tu clave pública en un fichero usando PGP4win?", a: 1, opts: ["Guardar un respaldo para restaurarla después", "Compartirla con otros para que te envíen mensajes cifrados", "Cifrar tu propia clave privada con más seguridad", "Firmar digitalmente el sistema operativo"] }
+                {
+                    q: "Si Benito y Adela buscan garantizar integridad, ¿qué deberían usar?",
+                    a: 0,
+                    opts: ["c1 y h", "m + c1", "c2", "Ninguna de las anteriores"]
+                },
+                {
+                    q: "¿Cuál de los siguientes elementos NO corresponde a seguridad física?",
+                    a: 2,
+                    opts: ["Suelo falso", "Suministrador de energía continuo", "Firewall hardware", "Huellas dactilares"]
+                },
+                {
+                    q: "¿Qué efecto tiene el bit SUID (Set User ID) al estar activado en un archivo ejecutable en Linux?",
+                    a: 2,
+                    opts: ["Abre scripts directamente desde el kernel", "Elimina privilegios temporales del usuario actual", "Proporciona acceso de superusuario (root) al ejecutar el archivo", "Hace que el archivo solo se pueda ejecutar con permisos 000"]
+                },
+                {
+                    q: "¿Cuál de las siguientes afirmaciones es correcta sobre el rendimiento de una red VPN?",
+                    a: 2,
+                    opts: ["Las VPN por software son más rápidas que las de hardware", "Las VPN por hardware son menos seguras que las de software", "Las VPN por hardware ofrecen mayor eficiencia y rendimiento", "Las VPN por software son mejores para cifrar extremo a extremo"]
+                },
+                {
+                    q: "¿Qué afirmación es correcta sobre MAC y MDC?",
+                    a: 2,
+                    opts: ["Ambos usan claves públicas", "MDC proporciona autenticación", "MAC requiere clave y MDC no", "MAC y MDC no sirven para detectar alteraciones"]
+                },
+                {
+                    q: "¿Qué tipo de criptografía permite obtener una clave pública a partir de una clave privada (pero no al revés)?",
+                    a: 1,
+                    opts: ["Simétrica", "Asimétrica", "Cifrado César", "Substitución monoalfabética"]
+                },
+                {
+                    q: "¿Qué tipo de clave usa un algoritmo con iteraciones r veces como DES o AES?",
+                    a: 2,
+                    opts: ["Asimétrica", "Híbrida", "Simétrica", "Hash"]
+                },
+                {
+                    q: "¿Qué es el espacio de claves en criptografía?",
+                    a: 2,
+                    opts: ["El número de hashes posibles", "El conjunto de claves públicas conocidas", "El conjunto de todas las claves posibles en un criptosistema", "La unión de clave privada + clave pública"]
+                },
+                {
+                    q: "¿Cuál es la función de un algoritmo hash en criptografía?",
+                    a: 2,
+                    opts: ["Cifrar mensajes", "Comprimir archivos", "Asegurar la autenticidad y la integridad", "Generar claves públicas"]
+                },
+                {
+                    q: "¿Qué describe mejor el ataque de tipo 'Shoulder Surfing'?",
+                    a: 2,
+                    opts: ["Escucha pasiva de una red", "Acceso físico al servidor", "Observación directa para robar información", "Uso de fuerza bruta para obtener contraseñas"]
+                },
+                {
+                    q: "¿Cuál de las siguientes afirmaciones sobre la firma digital NO es correcta?",
+                    a: 2,
+                    opts: ["Sirve para verificar la identidad del remitente", "Garantiza la integridad del mensaje", "La identidad cambia en cada documento", "Utiliza la clave privada del emisor"]
+                },
+                {
+                    q: "¿Cuál de los siguientes algoritmos es asimétrico?",
+                    a: 1,
+                    opts: ["AES", "RSA", "SHA-256", "DES"]
+                },
+                {
+                    q: "Si buscamos confidencialidad, ¿qué es lo que queremos garantizar?",
+                    a: 1,
+                    opts: ["Que el mensaje se mantenga sin alterar", "Que el mensaje solo pueda ser leído por el receptor autorizado", "Que el mensaje pueda ser leído por todos", "Que se pueda verificar el remitente"]
+                },
+                {
+                    q: "¿Cuál de los siguientes algoritmos no es un cifrado por sustitución?",
+                    a: 0,
+                    opts: ["Cuadrado", "Homofónico", "César", "Vigenère"]
+                },
+                {
+                    q: "¿Qué tipo de algoritmo criptográfico representa la Escítala utilizada por los espartanos?",
+                    a: 2,
+                    opts: ["Sustitución monoalfabética", "Cifrado asimétrico", "Transposición", "Función hash"]
+                },
+                {
+                    q: "Si necesito acceder al disco duro de mi empresa desde una ubicación remota, ¿cuál es la forma más segura y recomendada?",
+                    a: 2,
+                    opts: ["Usar el navegador (WWW)", "Enviar un correo electrónico al administrador", "Conectarse por VPN", "Realizar un ping al servidor"]
+                },
+                {
+                    q: "¿Cuál de las siguientes tecnologías proporciona cifrado extremo a extremo (E2E)?",
+                    a: 2,
+                    opts: ["HTTP", "VPN empresarial", "Signal", "TLS 1.0"]
+                },
+                {
+                    q: "¿Qué es una estructura de Feistel?",
+                    a: 2,
+                    opts: ["Un algoritmo de cifrado por flujo", "Un cifrado de sustitución monoalfabética", "Una estructura que cifra una mitad del bloque y la mezcla con la otra", "Un método de clave pública usado en SSL"]
+                },
+                {
+                    q: "¿Qué función cumple una firma digital dentro del contexto de la seguridad informática?",
+                    a: 1,
+                    opts: ["Asegurar la confidencialidad del mensaje", "Confirmar la identidad del emisor y garantizar la integridad del mensaje", "Cifrar los mensajes entre emisor y receptor", "Proteger la red frente a ataques externos"]
+                },
+                {
+                    q: "¿Qué es PayPal dentro del contexto del comercio electrónico?",
+                    a: 3,
+                    opts: ["Una red de comunicación entre gobiernos.", "Una plataforma de compraventa tipo B2B.", "Un protocolo de seguridad entre bancos.", "Un sistema de pago digital."]
+                },
+                {
+                    q: "¿Qué es el espacio de claves en criptografía?",
+                    a: 1,
+                    opts: ["La longitud del bloque cifrado", "El total de posibles claves que se pueden usar en un sistema criptográfico", "El almacenamiento de claves públicas en un servidor", "El número de usuarios autenticados en un sistema"]
+                },
+                {
+                    q: "¿Cuál de los siguientes algoritmos es de tipo asimétrico?",
+                    a: 2,
+                    opts: ["AES", "DES", "GPG", "RC4"]
+                },
+                {
+                    q: "¿Cuál de los siguientes términos no corresponde a un modelo válido de comercio electrónico?",
+                    a: 2,
+                    opts: ["B2B", "C2C", "E2E", "G2G"]
+                },
+                {
+                    q: "PGP4win: ¿Qué cifra para garantizar confidencialidad? Para que un mensaje enviado con PGP4win sea confidencial, ¿qué clave debe usarse para cifrarlo?",
+                    a: 0,
+                    opts: ["La clave pública del receptor", "La clave privada del receptor", "La clave pública del emisor", "El hash del mensaje"]
+                },
+                {
+                    q: "¿Qué tipo de cifrado utilizaban los espartanos mediante una tira de cuero enrollada en un bastón, que solo podía leerse si se enrollaba en un bastón del mismo diámetro?",
+                    a: 2,
+                    opts: ["Cifrado César", "Transposición por columnas", "Escítala", "Cifrado de Vigenère"]
+                },
+                {
+                    q: "¿Qué caracteriza a un criptosistema simétrico?",
+                    a: 2,
+                    opts: ["Utiliza claves diferentes para cifrar y descifrar", "Solo cifra y no descifra", "Utiliza la misma clave para cifrar y descifrar", "Genera claves de 1024 bits"]
+                },
+                {
+                    q: "¿A qué corresponde la Escítala como método criptográfico?",
+                    a: 1,
+                    opts: ["Sustitución monoalfabética", "Cifrado por transposición en espiral", "Polialfabético tipo Vigenère", "Algoritmo asimétrico"]
+                },
+                {
+                    q: "¿Qué ocurre en un ataque de tipo Man-in-the-middle (MitM)?",
+                    a: 0,
+                    opts: ["El atacante intercepta y modifica la comunicación entre dos partes sin que lo sepan", "El atacante bloquea totalmente la comunicación", "El atacante suplanta una dirección IP para hacer flooding", "El atacante se comunica con el servidor usando fuerza bruta"]
+                },
+                {
+                    q: "¿Qué debemos hacer para asegurar la integridad de un mensaje?",
+                    a: 2,
+                    opts: ["Usar TLS", "Comprimir el archivo", "Cifrar el hash con la clave privada del emisor", "Cifrar con clave pública del receptor"]
+                },
+                {
+                    q: "¿Para garantizar la confidencialidad al enviar un mensaje a Pablo usando PGP, qué clave se debe utilizar?",
+                    a: 1,
+                    opts: ["La clave privada de Pablo", "La clave pública de Pablo", "La clave pública del emisor", "La clave simétrica del sistema"]
+                },
+                {
+                    q: "¿Cuál es la función principal del protocolo TLS en una comunicación?",
+                    a: 2,
+                    opts: ["Filtrar contenido de red", "Comprimir paquetes de datos", "Transportar datos de forma segura mediante cifrado", "Generar claves públicas"]
+                },
+                {
+                    q: "El cifrado de Vigenère utiliza un alfabeto de 26 letras. ¿Qué característica es importante tener en cuenta al aplicarlo?",
+                    a: 2,
+                    opts: ["El alfabeto contiene la letra ñ", "El cifrado solo admite texto de 10 caracteres", "El abecedario usado es el latino sin la letra ñ", "Solo funciona con claves de longitud par"]
+                },
+                {
+                    q: "¿Cuál es el medio más seguro para acceder al disco duro de una empresa desde nuestro ordenador?",
+                    a: 2,
+                    opts: ["FTMail", "WWW", "VPN", "B2C"]
+                },
+                {
+                    q: "¿Qué es el padding en criptografía?",
+                    a: 2,
+                    opts: ["Una función hash que comprime el texto", "Una técnica de sustitución polialfabética", "Un método para rellenar bloques de datos hasta alcanzar la longitud adecuada para cifrado", "Un modo de cifrado asimétrico con RSA"]
+                },
+                {
+                    q: "Dado el conjunto siguiente: KEK, MEM, HEH, DED. Si se indica que M = K, ¿qué representa este conjunto?",
+                    a: 2,
+                    opts: ["Un conjunto aleatorio de valores sin significado.", "Una matriz donde todos los caracteres son letras sin repetición.", "Una matriz de 4x3 donde todas las filas contienen el mismo patrón de letras con M = K.", "Una tabla hash con letras equivalentes en posiciones simétricas."]
+                },
+                {
+                    q: "¿Qué caracteriza a la criptografía simétrica?",
+                    a: 2,
+                    opts: ["Usa claves públicas para cifrar", "Usa claves diferentes para cifrar y descifrar", "Usa la misma clave para cifrar y descifrar", "No requiere clave para descifrar"]
+                },
+                {
+                    q: "¿Cuál de los siguientes cifrados no se basa en sustitución?",
+                    a: 2,
+                    opts: ["César", "Vigenère", "Transposición por columnas", "Cifrado homofónico"]
+                },
+                {
+                    q: "Durante un handshake en una conexión segura (TLS/VPN), ¿cuál de los siguientes elementos no forma parte del proceso?",
+                    a: 3,
+                    opts: ["Clave pública", "Algoritmos de cifrado", "Saludo inicial (\"Hello\")", "Dirección física (MAC)"]
+                },
+                {
+                    q: "¿Qué puerto utiliza SSL/TLS por defecto para comunicaciones seguras?",
+                    a: 3,
+                    opts: ["20", "21", "80", "443"]
+                },
+                {
+                    q: "¿Cuál de los siguientes métodos de transposición organiza el texto en columnas y lo reordena siguiendo un patrón de clave numérica?",
+                    a: 1,
+                    opts: ["Sustitución homofónica", "Cifrado por columnas", "Escítala", "Vigenère"]
+                },
+                {
+                    q: "Si Adela quiere enviar un mensaje confidencial a Benito, ¿qué clave debe usar para cifrarlo?",
+                    a: 2,
+                    opts: ["Su clave pública", "Su clave privada", "La clave pública de Benito", "La clave privada de Benito"]
+                },
+                {
+                    q: "¿Para qué sirve analizar el conjunto de elementos de un criptosistema?",
+                    a: 2,
+                    opts: ["Para cifrar nuevos mensajes", "Para calcular el hash", "Para criptoanalizarlo y encontrar debilidades", "Para verificar firmas digitales"]
+                },
+                {
+                    q: "¿Qué es el ataque Meet in the Middle y en qué contexto se usa?",
+                    a: 1,
+                    opts: ["Es un handshake entre cliente y servidor", "Es un ataque que reduce la seguridad de cifrados múltiples como doble DES", "Es una técnica para evitar padding", "Es un protocolo de VPN"]
+                },
+                {
+                    q: "¿Qué tipo de red VPN permite garantizar Calidad de Servicio (QoS)?",
+                    a: 3,
+                    opts: ["VPN abierta (OpenVPN)", "VPN IPsec", "VPN por software", "VPN Trusted"]
+                },
+                {
+                    q: "¿Qué debe enviarle a Benito para garantizar confidencialidad?",
+                    a: 2,
+                    opts: ["c1 y h", "m + c1", "c2", "Ninguna de las anteriores"]
+                },
+                {
+                    q: "¿Qué describe correctamente la envoltura digital?",
+                    a: 2,
+                    opts: ["Es un algoritmo de hash", "Es un cifrado de flujo simétrico", "Es una técnica que combina cifrado simétrico y Diffie-Hellman", "Es un tipo de firma digital"]
+                },
+                {
+                    q: "El ataque Denial of Service (DoS) es:",
+                    a: 1,
+                    opts: ["Un ataque pasivo", "Un ataque activo", "Un algoritmo de cifrado", "Una forma de firma digital"]
+                },
+                {
+                    q: "¿Qué es la envoltura digital?",
+                    a: 2,
+                    opts: ["Un tipo de cifrado de flujo", "Un formato de hash", "Uso de cifrado simétrico + intercambio de clave con cifrado asimétrico", "Un protocolo de autenticación"]
+                },
+                {
+                    q: "PGP4win: Verificar archivo no malicioso. ¿Cómo puedes comprobar con PGP4win que un archivo no ha sido modificado y proviene del emisor legítimo?",
+                    a: 2,
+                    opts: ["Cifrando el archivo con tu clave pública", "Comparando el tamaño del archivo", "Verificando la firma digital del archivo con la clave pública del emisor", "Cifrando el archivo con la clave privada del emisor"]
+                },
+                {
+                    q: "¿Qué caracteriza a un cifrado de sustitución?",
+                    a: 0,
+                    opts: ["Cada símbolo o grupo de símbolos se reemplaza por otro símbolo o grupo", "El mensaje se divide en columnas y se desordena", "Se usa un padding para completar bloques", "Cada bit del mensaje se cifra con la clave pública"]
+                },
+                {
+                    q: "¿Qué es la expansión de claves en los cifrados modernos por bloques como AES o DES?",
+                    a: 1,
+                    opts: ["El proceso de agregar bits de relleno a la clave", "El método de generar subclaves a partir de la clave principal para usarlas en cada ronda del cifrado", "La técnica de aumentar el tamaño del mensaje", "La sustitución de claves por tablas S-box"]
+                },
+                {
+                    q: "En PGP4win, ¿para qué sirve copiar una clave pública en un fichero?",
+                    a: 2,
+                    opts: ["Para eliminarla del sistema", "Para almacenarla de forma insegura", "Para compartirla con otros usuarios", "Para cifrarla con una clave simétrica"]
+                },
+                {
+                    q: "¿Cuál de las siguientes afirmaciones es verdadera sobre el criptoanálisis?",
+                    a: 1,
+                    opts: ["El cifrado de César es polialfabético", "Criptoanálisis es un método usado por criptoanalistas", "Criptoanálisis solo se aplica a cifras modernas", "El cifrado César usa claves públicas y privadas"]
+                },
+                {
+                    q: "En PGP4win, si copiamos la clave pública de nuestro amigo, ¿qué podemos hacer con ella?",
+                    a: 2,
+                    opts: ["Descomprimir su carpeta", "Cambiar su contraseña", "Enviarle mensajes confidenciales cifrados", "Obtener su clave privada"]
+                },
+                {
+                    q: "¿Qué es la Armadura ASCII en criptografía?",
+                    a: 2,
+                    opts: ["Un cifrado binario", "Un algoritmo de transposición", "Una codificación de datos binarios en caracteres imprimibles", "Un protocolo de seguridad"]
+                },
+                {
+                    q: "¿Qué es 3D Secure en el contexto del comercio electrónico?",
+                    a: 1,
+                    opts: ["Un algoritmo de cifrado RSA para tarjetas", "Un protocolo de autenticación adicional para pagos en línea con tarjeta", "Un tipo de VPN para asegurar canales de compra", "Un sistema de encriptación de base de datos de clientes"]
+                },
+                {
+                    q: "Para garantizar la integridad del mensaje que envía Adela a Benito, ¿qué operación debe realizar Adela antes de enviarlo?",
+                    a: 0,
+                    opts: ["Aplicar un hash y firmarlo con su clave privada", "Cifrar con la clave pública de Benito", "Verificar con la clave pública de Benito", "Enviar el mensaje sin modificarlo"]
+                },
+                {
+                    q: "¿Qué tipo de criptografía realiza iteraciones 'r' veces sobre los bloques?",
+                    a: 0,
+                    opts: ["Criptografía clásica", "Criptografía cuántica", "Criptografía con curvas elípticas", "Esteganografía"]
+                },
+                {
+                    q: "¿Qué similitud comparten el cifrado por columnas y el de Vigenère?",
+                    a: 2,
+                    opts: ["Ambos son de sustitución monoalfabética", "Ambos son de transposición física", "Ambos utilizan una clave para reorganizar el texto", "Ambos cifran solo en bloques de 8 bits"]
+                },
+                {
+                    q: "Si ciframos un mensaje y luego lo criptoanalizamos correctamente, ¿qué obtenemos?",
+                    a: 2,
+                    opts: ["Un hash", "El mensaje cifrado", "El texto claro original", "El resumen digital"]
+                },
+                {
+                    q: "¿Cuál es la función principal del protocolo de Diffie-Hellman en criptografía?",
+                    a: 1,
+                    opts: ["Enviar mensajes cifrados sin clave", "Intercambiar claves de forma segura sobre un canal inseguro", "Firmar digitalmente un documento", "Generar funciones hash"]
+                },
+                {
+                    q: "¿Cuál de los siguientes elementos es un ejemplo de criptografía asimétrica o pública?",
+                    a: 2,
+                    opts: ["SHA-256", "AES", "RSA", "RC4"]
+                },
+                {
+                    q: "¿Qué método criptográfico menciona el uso de múltiples iteraciones o rondas para fortalecer el proceso de cifrado?",
+                    a: 2,
+                    opts: ["Vigenère", "Transposición simple", "Esquema de Feistel", "XOR básico"]
+                },
+                {
+                    q: "¿Con qué se verifica una firma digital?",
+                    a: 2,
+                    opts: ["Con la clave privada del emisor", "Con el hash del receptor", "Con la clave pública del emisor", "Con la clave pública del receptor"]
+                },
+                {
+                    q: "¿Por qué el Doble DES no proporciona una seguridad efectiva de 112 bits?",
+                    a: 2,
+                    opts: ["Porque se utiliza el mismo bloque varias veces", "Porque la clave es demasiado corta", "Por la vulnerabilidad al ataque Meet-in-the-Middle", "Porque no usa vector de inicialización"]
+                },
+                {
+                    q: "¿Qué indica el prefijo \"https://\" en una página web?",
+                    a: 2,
+                    opts: ["Que el servidor es propiedad del gobierno", "Que el contenido es autenticado por el navegador", "Que la página web está usando un canal de comunicación cifrado con TLS", "Que solo se puede acceder desde dispositivos móviles"]
+                },
+                {
+                    q: "¿Qué hace el comando SUID en sistemas Linux?",
+                    a: 2,
+                    opts: ["Abre scripts directamente", "Asegura que todos los permisos estén en 0", "Permite ejecutar archivos con los privilegios del propietario (root, por ejemplo)", "Elimina claves de usuario"]
+                },
+                {
+                    q: "¿Qué ocurre durante el proceso de \"handshake\" en una conexión segura como TLS o VPN?",
+                    a: 1,
+                    opts: ["Se realiza el hash del mensaje antes de enviarlo", "El cliente dice “Hola”, el servidor responde con “Hola” e intercambian certificados y claves", "El cliente firma el certificado del servidor", "Se cifra directamente el mensaje sin negociación"]
+                },
+                {
+                    q: "Benito recibe un mensaje firmado por Adela. ¿Cómo puede verificar que fue enviado por ella y que no fue modificado?",
+                    a: 1,
+                    opts: ["Aplicando su propia clave privada", "Descifrando el hash con la clave pública de Adela y comparándolo con el nuevo hash del mensaje", "Comparando la clave simétrica de Adela", "Cifrando nuevamente el mensaje"]
+                },
+                {
+                    q: "PGP4win: ¿Para qué sirve copiar la clave pública en un archivo? ¿Cuál es el propósito de guardar tu clave pública en un fichero usando PGP4win?",
+                    a: 1,
+                    opts: ["Guardar un respaldo para restaurarla después", "Compartirla con otros para que te envíen mensajes cifrados", "Cifrar tu propia clave privada con más seguridad", "Firmar digitalmente el sistema operativo"]
+                }
             ]
-        }
+        },
+
+        // ---------------------------------------------------------
+        // 🔹 BANCO: TEMA 1
+        // ---------------------------------------------------------
+        "ssi_tema1": {
+            nombre: "Tema 1",
+            datos: [
+                {
+                    q: "Los 4 elementos básicos de la seguridad informática son integridad, confidencialidad, no repudio, autenticación y:",
+                    a: 2,
+                    opts: ["Sostenibilidad", "Trazabilidad", "Disponibilidad", "Permisividad"]
+                },
+                {
+                    q: "Cuando una empresa se debate el sistema informático que se piensa utilizar, y se definen los instrumentos que dan soporte al sistema de información, estos se componen de:",
+                    a: 1,
+                    opts: ["Elementos biométricos y elementos lógicos", "Elementos físicos y elementos lógicos.", "Elementos físicos y elementos tecnológicos.", "Ninguna es correcta."]
+                },
+                {
+                    q: "Introducción a la seguridad en sistemas informáticos. A qué ámbitos se agrupan la seguridad informática.",
+                    a: 3,
+                    opts: ["Servidores de acceso público y privado.", "Canales de comunicación.", "Seguridad física.", "Todas son correctas."]
+                },
+                {
+                    q: "Los objetivos de los ataques que puede sufrir una empresa que se dedica a la gestión y protección de datos para una empresa pueden ser:",
+                    a: 2,
+                    opts: ["Físicos, Lógicos y Base de datos.", "Físicos, Lógicos y Datos.", "Hardware, Software y Datos", "Hardware, Software y Base de datos"]
+                },
+                {
+                    q: "Definición de seguridad física:",
+                    a: 1,
+                    opts: ["Ninguna es correcta.", "Aplicación de barreras físicas y procedimientos de control, como medidas de prevención y contramedidas ante amenazas a los recursos e información confidencial.", "Aplicación de gestores de barreras con procedimientos que guardan la estructura para que no puedan acceder ninguna persona no autorizada.", "Aplicación de barreras y procedimientos que resguarden el acceso a los datos sólo se permita acceder a ellos a las personas autorizadas para hacerlo."]
+                },
+                {
+                    q: "La empresa donde estamos encargados de custodiar toda la información sensible, cuando recibe un ataque denominado, \"Mirar por encima del hombro\" o Shoulder Surfing, nos estamos refiriendo a un ataque de:",
+                    a: 1,
+                    opts: ["Validación.", "Monitorización.", "Ataque de Modificación.", "Ataque de DoS."]
+                },
+                {
+                    q: "Los ataques a los bugs de los sistemas operativos se realizan mediante ataques de validación. Nos referimos a un ataque de:",
+                    a: 2,
+                    opts: ["Flooding", "Puerta trasera.", "Exploits", "Tampering"]
+                },
+                {
+                    q: "Definición de seguridad lógica:",
+                    a: 2,
+                    opts: ["Aplicación de barreras y protocolos que resguarden el acceso a los datos y sólo se permita acceder a ellos a las personas autorizadas para hacerlo", "Aplicación de medidas y protocolos que nos aseguran que el acceso a los datos sólo puede ser accedidos por personal autorizado.", "Aplicación de barreras y procedimientos que resguarden el acceso a los datos y sólo se permita acceder a ellos a las personas autorizadas para hacerlo.", "Aplicación de medidas y procedimientos que nos aseguran que el acceso a los datos sólo pueden ser accedidos por personal autorizado."]
+                },
+                {
+                    q: "Es la materia que se encarga de proteger los ordenadores, redes, sistemas informáticos y datos que en ellos se almacenan de agentes externos o internos que pudieran dañarlos o robarlos.",
+                    a: 3,
+                    opts: ["Sistemas informáticos.", "Internet.", "Seguridad.", "Seguridad Informática."]
+                },
+                {
+                    q: "¿Cuáles de estos desastres corresponde con la seguridad física?",
+                    a: 0,
+                    opts: ["Señales de radar.", "Detectores de metales.", "Sistemas biométricos.", "Robo."]
+                },
+                {
+                    q: "Definiciones: \"Programas que se reproducen dentro del ordenador. Los sistemas se ralentizan. Algunos tienen el objetivo de recopilar información de nuestro ordenador\".",
+                    a: 0,
+                    opts: ["Gusanos.", "Virus.", "Troyanos.", "Ninguna es correcta."]
+                },
+                {
+                    q: "Suplantar una IP y enviar una petición, esperando que cuando todos respondan se sature la máquina víctima. ¿A qué tipo de ataque DoS nos estamos refiriendo?",
+                    a: 3,
+                    opts: ["Explots", "Desbordamiento Net", "Bombardeo e-mail", "Tormenta broadcast"]
+                },
+                {
+                    q: "¿Cómo se podrían clasificar los ataques que puede sufrir un entorno informático?",
+                    a: 1,
+                    opts: ["Ninguna es correcta", "Ambas son correctas", "Pasivos", "Activos"]
+                },
+                {
+                    q: "Cuando el profesional de seguridad informática es formado para conocer los diferentes tipos de ataques que pueden sufrir el dispositivo que almacena la información, que siendo este encargado de preservar su integridad, dichos ataques podemos clasificarlos en:",
+                    a: 2,
+                    opts: ["Ataques de Virtualización, Validación, Denegación de Servicios y modificacion", "Ataques de Monitorización, acceso, Denegación de Servicios y Modificación", "Ataques de Monitorización, Validación, Denegación de Servicios y modificacion", "Ataques de Monitorización, Validación, Denegación de Recursos y modificacion"]
+                },
+                {
+                    q: "Suplantando la identidad en saltos: realizamos conexiones consecutivas suplantando a distintos usuarios (es decir el ataque va saltando de máquina en máquina). Nos estamos refiriendo a los ataques de validación:",
+                    a: 2,
+                    opts: ["Ip Spoofing - Looping.", "Ip Looping.", "Spoofing - Looping.", "Spoofing"]
+                },
+                {
+                    q: "Dentro de los ataques de modificación, siendo estos ataques con código malicioso que este se ejecuta cuando entramos en páginas web. ¿Cómo se denominan?",
+                    a: 3,
+                    opts: ["JavaScript o VisualScript", "Java Applets", "Controles ActiveX", "Todas son correctas"]
+                },
+                {
+                    q: "\"La unión de miles de redes informáticas conectadas entre sí, mediante una serie de protocolos (TCP/IP), que hace posible, para cualquier usuario de una de estas redes, comunicarse o utilizar los servicios de cualquiera de las otras\". Es la definición de:",
+                    a: 0,
+                    opts: ["Internet", "Ninguna es correcta", "Sistema informatico", "Sistema de Infomacion"]
+                },
+                {
+                    q: "La seguridad informática es la materia que se encarga de proteger los ordenadores, redes, sistemas informáticos y datos que en ellos se almacenan de agentes externos o internos que pudieran dañarlos o robarlos. Esta nos ofrece las siguientes propiedades:",
+                    a: 1,
+                    opts: ["Confidencialidad (privacidad), integridad, autentificación, indisponibilidad, no repudio, control, protección a la réplica, aislamiento y auditoría.", "Confidencialidad (privacidad), integridad, autentificación, disponibilidad, no repudio, control, protección a la réplica, aislamiento y auditoría.", "Confidencialidad (privacidad), integridad, autentificación, disponibilidad, no repudio, descontrol, protección a la réplica, aislamiento y auditoría", "Confidencialidad (privacidad), integridad, autentificación, disponibilidad, repudio, control, protección a la réplica, aislamiento y auditoría."]
+                },
+                {
+                    q: "La modificación sin autorización de datos o de los programas instalados en un sistema, incluido el borrado de ficheros, es lo que denominamos un ataque de:",
+                    a: 3,
+                    opts: ["Ataque de monitorizacion", "Es imposible realizar estos tipos de ataques puesto que el sistema al detectar una amenaza con estas características, detendría la recepción de información. Analizaría el sistema, buscando las modificaciones y usando el respaldo de copias de seguridad", "Ataque de validacion", "Ataque de modificacion"]
+                },
+                {
+                    q: "Dentro de la seguridad física podemos agruparlos en 3 tipos, ¿cuáles son?",
+                    a: 0,
+                    opts: ["Tipos de desastres, acciones hostiles y control de accesos.", "Tipos de desastres, acciones desfavorables y control de entrada.", "Tipos de desastres, acciones hostiles y control de entrada.", "Tipos de desastres, acciones desfavorables y control de accesos."]
+                },
+                {
+                    q: "En los ataques de monitorización, para saber qué puertos hay abiertos se lanzan peticiones de conexión completas, ¿a qué tipo de escaneo nos estamos refiriendo?",
+                    a: 2,
+                    opts: ["Escaneo TCP SYN.", "Escaneo Eavesdropping.", "Escaneo TCP Connect", "Escaneo Sniffering."]
+                }
+            ]
+        },
+
+        // ---------------------------------------------------------
+        // 🔹 BANCO: TEMA 2
+        // ---------------------------------------------------------
+        "ssi_tema2": {
+            nombre: "Tema 2",
+            datos: [
+                {
+                    q: "La cifra del César corresponde a una:",
+                    a: 0,
+                    opts: ["sustitución monoalfabética", "sustitución polialfabética", "permutación simple", "transposición sin clave"]
+                },
+                {
+                    q: "La cifra tipo Vigenère puede atacarse con cierta facilidad usando técnicas de:",
+                    a: 1,
+                    opts: ["fuerza bruta", "Kasiski", "índice de coincidencia", "criptoanálisis diferencial"]
+                },
+                {
+                    q: "Si una cifra se representa matemáticamente como Ci = Mi + Ki mod n, decimos que se trata de una cifra:",
+                    a: 0,
+                    opts: ["del César", "Playfair", "de escitala", "de Vigenère"]
+                },
+                {
+                    q: "Si al volver a cifrar un criptograma con la misma clave se obtiene el mensaje en claro, se habla de:",
+                    a: 0,
+                    opts: ["clave débil", "clave simétrica", "solución falsa", "solución ambigua"]
+                },
+                {
+                    q: "Respecto de los sistemas de clave simétrica, ¿cuál de las siguientes afirmaciones no es correcta?",
+                    a: 2,
+                    opts: ["Emplean la misma clave para cifrar y descifrar", "La clave debe permanecer secreta", "Computacionalmente son menos eficientes que los de clave asimétrica", "Hay que transmitir la clave de forma segura"]
+                },
+                {
+                    q: "41. Cifrado en bloque. Arquitectura. Función criptográfica iterada ‘r’ veces o vueltas → ¿éstas deben formar grupo para que el conjunto de varias pasadas sucesivas con sus claves correspondientes no sean equivalentes a una pasada única con una subclave diferente?",
+                    a: 0,
+                    opts: ["No.", "En ocasiones.", "Sí.", "No sabe no contesta."]
+                },
+                {
+                    q: "21. Cuando se establece una correspondencia única para cada símbolo en todo el texto y es utilizada la sustitución monoalfabética, podemos decir que estamos utilizando algunos de estos ejemplos…",
+                    a: 0,
+                    opts: ["Todas son correctas.", "Cifrado César.", "Cifrado monoalfabético general.", "Sustitución Afín."]
+                },
+                {
+                    q: "42. De todos los elementos que tiene la arquitectura del cifrado en bloque. Indica cuál es la incorrecta.",
+                    a: 2,
+                    opts: ["Función criptográfica iterada ‘r’ veces o vueltas.", "Transformación final.", "Algoritmo de compresión de clave.", "Transformación inicial."]
+                },
+                {
+                    q: "43. Si al cifrar en DES Ek1 (Ek1 (M)) = M , entonces:",
+                    a: 1,
+                    opts: ["La cifra será parcial", "La clave es débil", "La clave es semidébil", "La clave será binaria"]
+                },
+                {
+                    q: "44. Criptografía simétrica. Cifrado en bloque. Arquitectura. Elementos. Transformación final. Para que las operaciones de cifrado y de descifrado sean simétricas y se consiga la inversa de la transformación inicial, ¿se realiza la transformación inversa de la última vuelta de encriptación?",
+                    a: 2,
+                    opts: ["Sí.", "No.", "En ocasiones.", "No sabe no contesta."]
+                },
+                {
+                    q: "45. ¿Qué algoritmo original tipo Feistel dio lugar al DES?",
+                    a: 1,
+                    opts: ["Loki.", "Lucifer.", "Cast.", "RC2."]
+                },
+                {
+                    q: "46. Los criptosistemas simétricos o de clave privada, tienen una serie de características. ¿Puede indicarnos cuál o cuáles son las correctas?",
+                    a: 3,
+                    opts: ["Emplean la misma clave k para cifrar y descifrar.", "Hay que transmitir la clave de forma segura siendo estos computacionalmente muy eficientes.", "La clave debe permanecer secreta y estar a disposición del emisor y el receptor.", "Todas son correctas."]
+                },
+                {
+                    q: "47. Una de las vulnerabilidades que podemos encontrarnos en la criptografía simétrica en el cifrado en flujo es:",
+                    a: 1,
+                    opts: ["La clave es tan larga como el mensaje.", "Nunca se debe usar una misma clave en dos mensajes.", "Generar secuencias aleatorias y tenerlas almacenadas en el receptor y emisor.", "La semilla es el generador de la clave, conociendo esta podemos detectar cuál es la longitud de la clave."]
+                },
+                {
+                    q: "48. ¿Cómo se denomina el cifrado que divide el bloque inicial en dos mitades y en cada vuelta de encriptación se trabaja alternativamente con una de las mitades?",
+                    a: 0,
+                    opts: ["Cifrados de Feistel.", "Cifrado Lucifer.", "Todos son correctos.", "Cifrado DES"]
+                },
+                {
+                    q: "49. \"Es un ataque de texto conocido\". De este tipo de ataque se conocen varios textos claros y sus correspondientes criptogramas. Teniendo 243 pares de textos claros/cifrados se pueden obtener 26 bits de la clave. ¿A qué tipo de criptoanálisis nos estamos refiriendo?",
+                    a: 0,
+                    opts: ["Criptoanálisis lineal.", "DES Challenges.", "Criptoanálisis diferencial.", "Fuerza bruta."]
+                },
+                {
+                    q: "50. Cuando la longitud de la cadena a cifrar no es múltiplo del tamaño de bloque hay que completar el último bloque con algún patrón (p.ej. con ceros). Nos encontramos con el problema de separar la parte que es relleno al descifrar. Para darle solución a ello se indica en el último byte añadido el número total de bytes añadidos. Es lo que se denomina:",
+                    a: 0,
+                    opts: ["Padding.", "EDE.", "EEE.", "Doble DES."]
+                },
+                {
+                    q: "22. Al encontrarnos un mensaje cifrado y necesitamos conocer la información que ha sido enviada por ese canal. ¿Cómo se llama el método de descifrar los mensajes cifrados?",
+                    a: 0,
+                    opts: ["Criptoanálisis.", "Criptografía.", "Criptología.", "Carpología."]
+                },
+                {
+                    q: "23. Cuando Adela quiere enviar una información oculta para que solamente Benito tenga acceso a dicha información; utilizando un canal no seguro, realiza el cifrado con los símbolos de texto claro que se \"desordenan\" para formar el criptograma. Adela está usando:",
+                    a: 0,
+                    opts: ["Cifrado por Transposición.", "Cifrado por Homofónica.", "Cifrado por Sustitución.", "Cifrado Vigenère."]
+                },
+                {
+                    q: "24. ¿Podrías indicarnos cuantos métodos de criptografía podemos encontrarnos según lo estudiado en la parte 2.1 del temario de SSI?",
+                    a: 1,
+                    opts: ["Sustitución y Dispersión.", "Sustitución y Transposición.", "Sustitución y Homofónica.", "Dispersión y Transposición."]
+                },
+                {
+                    q: "25. En el siglo IX a.C., Lacedemonio, hijo de Cimon; mitad del siglo V a. C., fue un militar ateniense, perteneciente a la poderosa familia de los Filaidas. Siendo comandante de la flota de Atenas y distinguido en la batalla de Síbota, se comunicaba con sus tropas en un palo con tira de cuero enrollada en espiral. En este se es cribe en columnas a lo largo del palo. ¿Qué método de transposición era?",
+                    a: 1,
+                    opts: ["Opción 1", "Escitala.", "Columnas.", "Renglones."]
+                },
+                {
+                    q: "26. Si una cifra se representa matemáticamente como Ci = Mi + Ki (mod n), decimos que se trata de una cifra:",
+                    a: 2,
+                    opts: ["De Vigenère.", "Playfair.", "Del César.", "De escítala."]
+                },
+                {
+                    q: "27. Una contramedida para intentar evitar el análisis de frecuencias, se usa que a cada símbolo del alfabeto del espacio del mensaje (M) le corresponden varios símbolos del alfabeto del espacio del texto cifrado (C). Dicha correspondencia se realiza de manera que los símbolos de M con mayor frecuencia tengan más símbolos asignados en C, siendo este tipo de sustitución consiguiente en uniformizar las frecuencias de símbolos del criptograma para dificultar el análisis de frecuencias. Dentro del método de sustitución, ¿cuál de las siguientes opciones tiene este sistema?",
+                    a: 2,
+                    opts: ["Sustitución Monoalfabético.", "Sustitución Alfin.", "Sustitución Homofónica.", "Sustitución Polialfabética."]
+                },
+                {
+                    q: "28. La cifra tipo Vigenère puede atacarse con cierta facilidad usando técnicas de:",
+                    a: 3,
+                    opts: ["Fuerza bruta.", "Criptoanálisis diferencial.", "Índice de coincidencia.", "Kasiski."]
+                },
+                {
+                    q: "29. Cifrado por sustitución → cada símbolo se sustituye por otro símbolo. ¿Cuál o cuáles son los que podemos encontrarnos a la hora de realizar el método por sustitución?",
+                    a: 2,
+                    opts: ["Polialfabética.", "Homofónica.", "Todas son correctas.", "Monoalfabética."]
+                },
+                {
+                    q: "30. La cifra del César corresponde a una:",
+                    a: 0,
+                    opts: ["Sustitución monoalfabética.", "Sustitución polialfabética.", "Permutación simple.", "Transposición sin clave."]
+                },
+                {
+                    q: "139. Respecto de las funciones hash, seleccionar la afirmación incorrecta:",
+                    a: 0,
+                    opts: ["Una función hash es segura si posee las características de unidireccionalidad, compresión, facilidad de cálculo, difusión, coslisión simple y colisión fuerte", "Permite la firma digital en los sistemas de clave pública", "Lo habitual en las funciones hash es emplear longitudes de 160 bits", "La menos usadas actualmente son MD5 y SHA-1"]
+                },
+                {
+                    q: "137. En relación con el cifrado asimétrico indica cuál es la afirmación incorrecta:",
+                    a: 3,
+                    opts: ["Se basa en problemas matemáticos difíciles de resolver", "A partir de una clave no se puede obtener fácilmente la otra", "Soluciona el problema de la distribución de claves en el cifrado simétrico", "No permite autenticació"]
+                },
+                {
+                    q: "136. El AES no es tipo Feistel porque cifra texto como:",
+                    a: 1,
+                    opts: ["bloques de 128 bits", "bloques completos", "bloques por mitades", "texto en binario"]
+                },
+                {
+                    q: "134. Si al cifrar en DES Ek1 (Ek1 (M)) = M, entonces:",
+                    a: 1,
+                    opts: ["La cifra será parcia", "La clave es débil", "La clave es muy débil", "La clave será binaria"]
+                },
+                {
+                    q: "132. Si en cifra simétrica la clave afecta sólo a una mitad del texto en claro en cada vuelta se habla de:",
+                    a: 1,
+                    opts: ["cifrado múltiple", "cifrado Feistel", "cifrado híbrido", "cifrado afín"]
+                },
+                {
+                    q: "133. Respecto al algoritmo de cifrado en bloque DES, selecciona la afirmación incorrecta:",
+                    a: 2,
+                    opts: ["Es un algoritmo tipo Feistel", "Se trata de una evolución del algoritmo Lucifer", "Tiene un tamaño de bloques de 64 bits, tamaño de clave de 56 bits y 14 rondas", "Funciona con 16 rondas, tamaño de clave de 56 bits y bloques de 64 bits."]
+                },
+                {
+                    q: "135. En cada caja Si del DES entrarán b1 bits y saldrán b2 bits, y la relación b1 /b2 vendrá dada por:",
+                    a: 2,
+                    opts: ["48/32", "6/4", "4/6", "8/4"]
+                },
+                {
+                    q: "138. En relación con el intercambio de claves de Diffie-Hellman, selecciona la respuesta correcta:",
+                    a: 2,
+                    opts: ["Está basado en la factorización de números primos muy grandes", "Sólo se utiliza una clave pública para el intercambio", "Está basado en el problema del logaritmo discreto", "No se hace necesario acordar una clave común entre los interlocutores"]
+                },
+                {
+                    q: "61. Criptografía asimétrica. De las desventajas que mostramos a continuación, ¿cuál es la correcta?",
+                    a: 0,
+                    opts: ["El tamaño de las claves (seguras) es mayor.", "El criptograma ocupa menos espacio que el mensaje original.", "Todas son correctas.", "Es más rápida que la criptografía simétrica"]
+                },
+                {
+                    q: "62. La envoltura digital, unos de sus puntos fuertes en el cifrado asimétrico es...",
+                    a: 2,
+                    opts: ["Todas son correctas.", "Velocidad de cifrado alta.", "Transmitir de forma segura una clave a través de un medio inseguro (Diffie-Hellman, Certificados Digitales).", "Firma digital, autenticando mensaje."]
+                },
+                {
+                    q: "63. ¿Cuáles pueden ser las vulnerabilidades del algoritmo RSA?",
+                    a: 0,
+                    opts: ["Todas son correctas.", "Claves débiles, y claves demasiado cortas.", "Ataques de exponente bajo.", "Ataques de intermediario, ataques de texto claro escogido, ataques de módulo común."]
+                },
+                {
+                    q: "64. ¿Podrías indicarnos de los siguientes ejemplos, cuál o cuáles no son criptosistemas asimétricos?",
+                    a: 1,
+                    opts: ["RSA.", "RFA.", "Curvas elípticas.", "El Gamal."]
+                },
+                {
+                    q: "51.En la criptografía simétrica, cuando tenemos por ejemplo el cifrado en bloque, utilizando el algoritmos DES, este, tiene una propiedad, que nos dice, \"Cada bit de texto cifrado es una función compleja de todos los bits de la clave y todos los bits del texto original (por bloques)\", es lo que denominamos:",
+                    a: 0,
+                    opts: ["Dependencia entre símbolos.", "Cambio de los bits de la clave.", "Todas son correctas.", "Cambio de los bits de entrada."]
+                },
+                {
+                    q: "52. ¿Qué modo convierte el algoritmo en un generador de secuencia cifrante que genera una clave continua de longitud infinita bit a bit, siendo usado para implementar un cifrado en flujo?",
+                    a: 3,
+                    opts: ["CFB.", "CBS.", "CTR.", "OFB."]
+                },
+                {
+                    q: "54. ¿Cuántos tipos de criptografía simétrica podemos encontrarnos?",
+                    a: 1,
+                    opts: ["Ninguno es correcto.", "Ambos son correctos.", "Cifrado en bloque.", "Cifrado en flujo."]
+                },
+                {
+                    q: "53. Ejemplos de cifrado en bloque. Modos de operación de clave simétrica. Indica cuál es la respuesta correcta.",
+                    a: 1,
+                    opts: ["ECB, CBS, CFB, OFB, CTR.", "ECB, CBC, CFB, OFB, CTR.", "ESB, CBC, CFB, OFB, CTR.", "ECB, CBC, CFB, ONB, CTR."]
+                },
+                {
+                    q: "55. Criptografía asimétrica es también lo que denominamos...",
+                    a: 1,
+                    opts: ["Clave de confidencialidad.", "Clave pública.", "Clave asincrónica.", "Clave privada."]
+                },
+                {
+                    q: "56. Funcionamiento teórico de la firma digital. Elige la respuesta correcta.",
+                    a: 3,
+                    opts: ["Todas son correctas.", "El emisor cifra el mensaje con su clave pública", "Añadir en el mensaje un número secuencial o la fecha y hora de recepción del mensaje", "El receptor descifra el mensaje con la clave pública del emisor."]
+                },
+                {
+                    q: "57. El algoritmo RSA se basa en el problema de:",
+                    a: 3,
+                    opts: ["Curvas elípticas.", "Logaritmos discretos.", "Logaritmos discretos en un cuerpo finito.", "Factorización de enteros grandes."]
+                },
+                {
+                    q: "58. Confidencialidad + Integridad. Si ciframos un texto con la clave pública de Benito, ¿estamos asegurando la integridad?",
+                    a: 1,
+                    opts: ["Sí, se asegura la integridad, mientras que no se repita la clave pública.", "No, porque cualquiera puede crear un mensaje al tener la clave pública.", "Depende del tamaño de la clave pública de Benito.", "Sí, porque mientras no se obtenga la clave privada de Adela, el mensaje no puede ser descifrado"]
+                },
+                {
+                    q: "59. El resumen debe permitir detectar cambios en el mensaje. siendo la función hash que se aplica sobre el mensaje ‘m’, y que debe de cumplir:",
+                    a: 3,
+                    opts: ["Facilidad de cálculo.", "Compresión.", "Ninguna de las dos opciones", "Ambas opciones son las correctas."]
+                },
+                {
+                    q: "60. Los usos de la criptografía asimétrica. Indícanos cual es la correcta",
+                    a: 0,
+                    opts: ["Confidencialidad, Integridad, Autenticación y no repudio", "Confidencialidad, Integridad, Autenticación y repudio.", "Coherencia, Integridad, Autenticación y no repudio.", "Confidencialidad, Identidad, Autenticación y no repudio."]
+                }
+            ]
+        },
+
+        // ---------------------------------------------------------
+        // 🔹 BANCO: TEMA 3
+        // ---------------------------------------------------------
+       "ssi_tema3": {
+            nombre: "Tema 3",
+            datos: [
+                {
+                    q: "71. Correo electrónico seguro. Transmisión de claves. Cuando se envía un email por un webmail, ¿qué tipo de clave no se transmite nunca?",
+                    a: 1,
+                    opts: ["CLave pública", "Clave privada", "Clave asimétrica", "Ninguna clave se transmite"]
+                },
+                {
+                    q: "72. Los certificados digitales incluyen los siguientes datos:",
+                    a: 3,
+                    opts: ["Nombre de usuario u organismos (o URL).", "Clave privada del usuario u organismos.", "Firma digital de un segundo.", "Todas son correctas."]
+                },
+                {
+                    q: "73. Una combinación de servicios, políticas, procedimientos, acuerdos, procesos, algoritmos, estructuras de datos y gente que permitirá asegurar la identidad de los participantes en un intercambio de datos mediante la utilización de la criptografía. Es la definición de....",
+                    a: 0,
+                    opts: ["PKI", "EJBCA", "PKIX", "PCI"]
+                },
+                {
+                    q: "74. Los ataques pasivos que pueden llegar a sufrir un correo electrónico son:",
+                    a: 0,
+                    opts: ["Interceptación.", "Interrupción", "Modificación", "Fabricación"]
+                },
+                {
+                    q: "75. El Protocolo de la Oficina Postal - Versión 3. Al realizar la lectura de correos, ¿cuál es una de las principales características que realizaban por defecto al leerlos?",
+                    a: 0,
+                    opts: ["Borra los correos del servidor y los pasa al cliente local.", "Conexión segura usando TLS.", "Gestionar los correos en el servidor.", "Ninguna es correcta."]
+                },
+                {
+                    q: "76. Características de los algoritmos soportados en la versión TLS 1.2:",
+                    a: 3,
+                    opts: ["Intercambios de clave / autenticación.", "Funciones resumen MD5, SHA-1, SHA-256.", "Algoritmos simétricos por bloques y en flujo", "Todas son correctas."]
+                },
+                {
+                    q: "77. ¿Cuál fue el sucesor de SSL?",
+                    a: 2,
+                    opts: ["SSL+", "RC4", "TLS", "Poodle SSL"]
+                },
+                {
+                    q: "78. Para conseguir la autentificación del servidor por parte del cliente, permitiendo que estos a su vez seleccionen los algoritmos criptográficos que son soportados por ambos y estableciendo una conexión SSL/TLS cifrada. Es un protocolo denominado:",
+                    a: 3,
+                    opts: ["Ninguna es correcta.", "HandShake.", "Apretón de manos.", "Ambas respuestas son correctas."]
+                },
+                {
+                    q: "79. TLS en agosto de 2018 versión 1.3, le fueron realizados cambios por lo que eliminaron los algoritmos MD5 y SHA-224. Siendo la nueva incorporación por un algoritmo de intercambio de claves (Diffie-Hellman ECDH), ¿a qué tipo de algoritmo nos estamos refiriendo?",
+                    a: 3,
+                    opts: ["Curve25119.", "Curve25019.", "Curve25219.", "Curve25519."]
+                },
+                {
+                    q: "80. SSL/TLS record Protocol, en la cabecera, se realizan con longitud de 2 y 3 bytes, para rellenar datos en la cabecera. ¿Cómo se denomina la técnica para realizar el relleno?",
+                    a: 1,
+                    opts: ["Ninguna es correcta.", "Padding.", "Widen.", "Fattening."]
+                },
+                {
+                    q: "91. Cuando leemos. \"Cualquier proceso de negocio que depende de un sistema de información automatizado, además permitiendo a las empresas enlazar los sistemas de proceso de datos internos y externos de forma más eficiente y flexible, permitiendo mejorar en la comunicación con los proveedores y partners, y conociendo y satisfacer mejor las necesidades de los clientes\", nos estamos refiriendo al:",
+                    a: 0,
+                    opts: ["Negocio electrónico.", "Negocio on line.", "Dropshipping", "Comercio electrónico."]
+                },
+                {
+                    q: "92. La compra y venta de productos o servicios mediante el uso de sistemas electrónicos como Internet y otras redes de ordenadores, siendo algunos productos transportados \"virtualmente\", aunque otros requieren transporte físico y que son usados fundamentalmente en web, e-mail o apps móviles; es lo que definimos como:",
+                    a: 3,
+                    opts: ["Páginas Web.", "Negocio electrónico.", "Comercio virtual.", "Comercio electrónico."]
+                },
+                {
+                    q: "93. Se usa para enviar información de pedidos, seguimiento, etc. y para el envío de comunicaciones con el vendedor, usando protocolos tales como SMTPS, POP3S, IMAPS, pudiendo en algunos casos estar cifrada la información de extremo a extremo. Estamos hablando de:",
+                    a: 3,
+                    opts: ["Negocio electrónico.", "E-commerce.", "Comercio electrónico.", "E-mail."]
+                },
+                {
+                    q: "94. Los medios de pagos que podemos encontrarnos por la red a la hora de realizar una transacción segura son:",
+                    a: 3,
+                    opts: ["Tarjetas virtuales.", "3D Secure.", "Plataformas de pago.", "Todas son correctas."]
+                },
+                {
+                    q: "95. ¿Sobre qué se basa la moneda creada de forma electrónica?",
+                    a: 2,
+                    opts: ["Algoritmos recursivos.", "Cartografía.", "Criptografía.", "Near Field Communication"]
+                },
+                {
+                    q: "96. El funcionamiento de los protocolos de ámbito nativo de las VPNs se encuentra en capas o niveles. ¿Podría indicarnos cuál es la respuesta más correcta?",
+                    a: 2,
+                    opts: ["Nivel 3.", "Capa de enlace de datos.", "Todas son correctas.", "Nivel 2."]
+                },
+                {
+                    q: "97. ¿En qué capa o capas se encuentran alojadas los protocolos para SSL/TLS?",
+                    a: 3,
+                    opts: ["3 y 4.", "1 y 2.", "4 y 5.", "5 y 6."]
+                },
+                {
+                    q: "98. El cliente confía en que el proveedor de la VPN mantenga la integridad de las líneas y use las técnicas necesarias para evitar el espionaje. Siendo una ventaja que el proveedor ofrezca garantías de calidad de servicio QoS (\"calidad de servicio\"), ¿a qué tipo de red VPN nos estamos refiriendo?",
+                    a: 2,
+                    opts: ["SSL / TLS VPN.", "Secure VPN.", "Trusted VPN.", "Hybrid VPN."]
+                },
+                {
+                    q: "99. Tecnologías de redes privadas virtuales. Según las distintas tipos de redes que podemos encontrarnos, la Secure VPN que NO ofrece.",
+                    a: 2,
+                    opts: ["El cifrado actúa como un túnel entre el origen y destino.", "Paquetes por prioridades.", "Seguridad total.", "Encriptar el tráfico de un extremo de la red."]
+                },
+                {
+                    q: "100. Los protocolos de funcionamiento en las VPN, ¿podría comentarnos cuál sería el protocolo más completo, que incluya la identificación, cifrado y gestión de claves?",
+                    a: 0,
+                    opts: ["IPsec.", "PPTP.", "L2F.", "L2TP."]
+                },
+                {
+                    q: "65. Correo electrónico. Protocolo de Acceso a Mensajes de Internet. Versión 4. ¿Qué característica por defecto realiza al recibir los correos electrónicos?",
+                    a: 1,
+                    opts: ["Gestionar el envío de correos en el servidor.", "Gestionar los correos en el servidor.", "Igual que el POP3, pero más seguro al enviar los email.", "Gestionar y borrar los correos en el servidor."]
+                },
+                {
+                    q: "66. Correo Seguro. ¿Cuáles son los tipos de ataques que pueden recibir?",
+                    a: 1,
+                    opts: ["Ataques directos e indirectos.", "Ataques pasivos y activos.", "Ataques de modificación y de escucha.", "Ataques back door."]
+                },
+                {
+                    q: "67. Entre los años 1982 a 2008, se realizaban los envíos de correos de cliente a servidor y el encaminamiento entre servidores. Cuando queríamos realizar una conexión segura, usando seguridad de la capa de transporte. Nos estamos refiriendo al protocolo?.",
+                    a: 3,
+                    opts: ["SMTP.", "POP3S.", "POP3", "SMTPS"]
+                },
+                {
+                    q: "68. Lista de Certificados Revocados. ¿Cómo se llaman las listas donde cada CA va a publicar los certificados revocados o caducados? Dichas listas contendrán el número de certificado dentro de la CA y serán de acceso público.",
+                    a: 0,
+                    opts: ["CRLs.", "LCA.", "LOKI.", "LTTL."]
+                },
+                {
+                    q: "69. Las entidades públicas o privadas cuya función es ofrecer confianza en los certificados que firman, generando certificados bajo demanda y facilitando su clave pública para comprobaciones, son lo que denominamos:",
+                    a: 1,
+                    opts: ["Organizaciones de certificación.", "Autoridades de certificación.", "Organismos de certificación.", "Autoridades de control."]
+                },
+                {
+                    q: "70. ¿Cuáles son los ataques activos que puede sufrir un correo electrónico?",
+                    a: 0,
+                    opts: ["Todos son correctos.", "Interrupción.", "Modificación.", "Fabricación."]
+                },
+                {
+                    q: "81. En Poodle SSL, ¿cuál es el número de repeticiones SSL 3.0 necesarias para recuperar un byte de un mensaje cifrado?",
+                    a: 1,
+                    opts: ["512.", "256.", "128.", "64."]
+                },
+                {
+                    q: "82. ¿Cuáles son las fases que corresponden al protocolo HandShake?",
+                    a: 2,
+                    opts: ["Saludos del cliente, saludo del servidor, autenticación del cliente, autenticación del enlace del servidor, producción de la clave de sesión y fase de fin.", "Saludos del cliente, saludo del servidor, autenticación del cliente, producción de la clave de sesión y fase de fin.", "Saludos del cliente, saludo del servidor, autenticación del cliente, autenticación del servidor, producción de la clave de sesión y fase de fin.", "Saludos del cliente, saludo del servidor, autenticación del servidor, producción de la clave de sesión y fase de fin."]
+                },
+                {
+                    q: "83. En las fases del protocolo Handshake, cuando se realiza el server hello, el servidor envía al cliente su certificado digital con clave pública. ¿A qué tipo de certificado nos estamos refiriendo?",
+                    a: 2,
+                    opts: ["Digital X.519v3", "ARIA.", "Digital X.509v3", "Rac4"]
+                },
+                {
+                    q: "84. SSL/TLS ejecuta un protocolo de negociación para establecer una conexión segura. ¿A qué tipo de nivel se realiza esta negociación?",
+                    a: 2,
+                    opts: ["Ninguna es correcta.", "Nombre máquina más puerto.", "Socket.", "Ambas son correctas."]
+                },
+                {
+                    q: "85. Características del protocolo SSL/TLS, siendo estos implementados en todos los navegadores. ¿Qué tipos de servicios son proporcionados?",
+                    a: 3,
+                    opts: ["Verificación, integridad y confidencialidad.", "Autentificación, integridad y transporte.", "Autentificación, certificación y confidencialidad.", "Autentificación, integridad y confidencialidad."]
+                },
+                {
+                    q: "86. En la clasificación por proveedor/cliente, cuando se realizan concesiones de la administración pública (generalmente por subasta inversa), son las que se denominan.",
+                    a: 0,
+                    opts: ["B2G.", "B2B.", "B2E.", "B2C."]
+                },
+                {
+                    q: "87. En la seguridad de las aplicaciones desarrolladas para dispositivos móviles, tales como teléfonos inteligentes y tabletas. Señala la opción correcta:",
+                    a: 3,
+                    opts: ["Los mecanismos empleados suelen ser seguros.", "Son multidioma para conseguir un máximo expansión de la aplicación.", "Está disponible el código fuente de la aplicación, sabiendo de esta forma como está desarrollada para futuras mejoras.", "Depende del desarrollador de la aplicación (vendedor)."]
+                },
+                {
+                    q: "88. Cuando hablamos de la interacción no comercial entre gobierno y empresas, por ejemplo apoyo a la exportación, ¿de qué tipo de clasificación proveedor / cliente estamos refiriendo?",
+                    a: 0,
+                    opts: ["G2B.", "G2A.", "G2C.", "G2G."]
+                },
+                {
+                    q: "89. En el negocio electrónico, se utiliza una tabla con la clasificación por proveedor / cliente. Cuales de las siguientes opciones es la correcta",
+                    a: 1,
+                    opts: ["B2B, B2C, B2E, B2G, G2B, G2G, G2C, C2A, C2B.", "B2B, B2C, B2E, B2G, G2B, G2G, G2C, C2C, C2B.", "B2B, B2C, B2E, B2G, G2A, G2G, G2C, C2C, C2B.", "B2B, B2C, B2E, B2J, G2B, G2G, G2C, C2C, C2B."]
+                },
+                {
+                    q: "90. Para hacer transacciones de productos desde la red, se usan una serie de protocolos para conseguir conexiones web seguras, estas implican el uso de certificados digitales para la identificación del servidor, pudiendo requerir un certificado digital de usuario, siendo toda esta información encriptada. ¿Qué tipo de medidas de seguridad se implementan para conseguir lo descrito anteriormente?",
+                    a: 1,
+                    opts: ["Protocolo IMAPS.", "Protocolo SSL / TLS.", "Protocolo SSL", "Protocolo TLS"]
+                },
+                {
+                    q: "Las redes privadas virtuales tienen sus orígenes en dos motivaciones: objetivos organizadores y situaciones. Contesta la pregunta correcta de las siguientes opciones relacionada con los objetivos organizaciones.",
+                    a: 0,
+                    opts: ["Dar soporte a diversidad de comunicaciones de muy distintos lugares.", "Organizaciones dispersas en la geografía.", "Acuerdos entre organizaciones.", "Usuarios con acceso desde el exterior."]
+                },
+                {
+                    q: "102. Tipos de VPN que podemos encontrar:",
+                    a: 0,
+                    opts: ["Trusted VPN", "Secore VPN.", "Todas son correctas.", "MyHybrid VPN."]
+                },
+                {
+                    q: "103. Definición. \"Es una red confiada que tiene partes controladas por una red segura. La parte segura estará implementada con cualquiera de los protocolos existentes. Aunque la parte confiada estará implementada con cualquiera de los protocolos existentes, estando todas las combinaciones permitidas\". Estamos hablando de la VPN:",
+                    a: 1,
+                    opts: ["MyHybrid VPN.", "Hybrid VPN.", "Secure VPN.", "Trusted VPN."]
+                },
+                {
+                    q: "104. Es una red de datos que hace uso de las infraestructuras públicas de telecomunicaciones, manteniendo la privacidad usando protocolos de tunneling y procedimientos de seguridad. Es la definición de:",
+                    a: 1,
+                    opts: ["Virtual Private Network.", "Todas son correctas.", "VPN.", "RedPrivada Virtual."]
+                },
+                {
+                    q: "105. ¿Qué ventajas pueden ofrecernos la calidad de servicio o QoS al cliente?",
+                    a: 1,
+                    opts: ["Alta velocidad.", "Todas son correctas.", "Paquetes con prioridades.", "Baja tasa de pérdida de paquetes."]
+                }
+            ]
+        },
+
+        // ---------------------------------------------------------
+        // 🔹 BANCO: TEMA 4
+        // ---------------------------------------------------------
+        "ssi_tema4": {
+            nombre: "Tema 4",
+            datos: [
+                {
+                    q: "106. ¿Cuáles son los sistemas de ficheros soportados por Windows?",
+                    a: 3,
+                    opts: ["FAT16, FAT32, NTFS1, NTFS5, ReFS.", "FAT, FAT32, NTFS, NTFS5, ReFS.", "FAT16, FAT32, NTFS, NTFS3, ReFS.", "FAT16, FAT32, NTFS, NTFS5, ReFS."]
+                },
+                {
+                    q: "107. Las directivas de bloqueo de cuentas, conforme a las políticas de seguridad de Windows, deben de tener una serie de requisitos. Elige la respuesta más completa.",
+                    a: 2,
+                    opts: ["Umbral de bloqueos de la cuenta.", "Duración del bloqueo de cuentas.", "Todas son correctas.", "Restablecer la cuenta de bloqueos."]
+                },
+                {
+                    q: "108. ¿Quétipo de cifrado utiliza EFS por bloques?",
+                    a: 1,
+                    opts: ["Asimétrico.", "Simétrico.", "TLS.", "SSL"]
+                },
+                {
+                    q: "109. La utilización de los conocimientos de seguridad en informática para realizar pruebas en sistemas, redes o dispositivos electrónicos, buscando vulnerabilidades que explotar con el fin de documentarlas para tomar medidas y sin poner en riesgo el sistema, es lo que define como:",
+                    a: 2,
+                    opts: ["Bugs.", "Hacking.", "Hacking ético.", "Hacker."]
+                },
+                {
+                    q: "110. Seguridad en Windows. Clasificación general. Sistema sin seguridad o con protección casi nula. Indícanos cual es la versión de Windows.",
+                    a: 1,
+                    opts: ["Windows 98.", "Todas son correctas.", "Windows 95.", "Windows ME."]
+                },
+                {
+                    q: "140. Trabajamos con PGP y queremos revocar nuestra clave. Una vez que lo hemos hecho, con esa clave no podremos:",
+                    a: 2,
+                    opts: ["recibir mensajes cifrados de otros usuarios", "recuperar archivos antiguos cifrados con esa clave", "generar una nueva clave", "comprobar las propiedades de ésta en su anillo"]
+                },
+                {
+                    q: "111. Las directivas de contraseñas, conforme a las políticas de seguridad de Windows, deben de tener una serie de requisitos. Elige la respuesta más completa.",
+                    a: 2,
+                    opts: ["Forzar el historial de contraseñas.", "Vigencia máxima y mínima de la contraseña.", "Todas son correctas.", "Longitud mínima de las contraseñas."]
+                },
+                {
+                    q: "112. Políticas de seguridad de Windows. Estructura. ¿Podrías indicarnos cuales son?",
+                    a: 1,
+                    opts: ["Contramedida.", "Todas son correctas.", "Vulnerabilidad.", "Impacto potencial."]
+                },
+                {
+                    q: "113. Características de seguridad en Windows. ¿Cuántos tipos de cuentas de usuario existen?",
+                    a: 3,
+                    opts: ["4", "1", "3", "2"]
+                },
+                {
+                    q: "114. Políticas de seguridad en Windows, políticas de directivas de cuentas. ¿Cuáles son las directivas que tiene Windows?",
+                    a: 2,
+                    opts: ["Directivas de control y usuario.", "Directivas de acceso y contraseñas.", "Directivas de contraseñas y bloqueo de cuentas.", "Directivas de usuario y bloqueo de cuentas."]
+                },
+                {
+                    q: "115. Podrías indicarnos cuáles son las características principales de Linux",
+                    a: 1,
+                    opts: ["Todas son correctas.", "Sistema multitarea/multiprocesador/multiusuario.", "Implementa mecanismos de compresión.", "Código en C."]
+                }
+            ]
+        },
+
+        // ---------------------------------------------------------
+        // 🔹 BANCO: TEMA 5
+        // ---------------------------------------------------------
+       "ssi_tema5": {
+            nombre: "Tema 5",
+            datos: [
+                {
+                    q: "Elige la opción de todas las posibles organizaciones que usen las herramientas COBIT para la certificación de seguridad.",
+                    a: 0,
+                    opts: ["ISACA", "(ISC)2", "Ec-Council", "CompTIA"]
+                },
+                {
+                    q: "El análisis de las vulnerabilidades de los sistemas, programas y procedimientos relativos a los sistemas informáticos de una organización se realiza con el fin de mejorar la seguridad de los datos, los equipos, las redes de comunicaciones y así garantizar el buen funcionamiento del sistema informático así como el cumplimiento de las normativas legales. Es lo que se denomina auditoría de:",
+                    a: 3,
+                    opts: ["Auditoría de cumplimiento legal.", "Auditoría de organismos oficiales.", "Auditoría de productividad informática.", "Auditoría de seguridad informática."]
+                },
+                {
+                    q: "¿Cuáles son los objetivos de las herramientas de auditoría informática en los sistemas de información y a la organización a la que sirve?",
+                    a: 1,
+                    opts: ["Analizar y dar soluciones al problema.", "Diagnosticar y adecuarlos.", "Investigar y exponer el problema.", "Diagnosticar y dar soluciones al problema."]
+                },
+                {
+                    q: "De todas las opciones que nos presentan las herramientas de auditoría informática, ¿cuál de ellas está fundamentada en la tríada C-I-A. Confidentiality - Integrity - Availability?",
+                    a: 0,
+                    opts: ["ISO / IEC 27002", "ISO / IEC 20000.", "Covid.", "ITIL."]
+                },
+                {
+                    q: "Es un estándar internacional sobre la gestión de servicios de las TICs. Los procesos se organizan en diversos grupos: requerimientos, planificación e implementación de servicios, seguridad de la información, resolución de incidentes, procesos de control, distribución, es a lo que nos referimos como:",
+                    a: 0,
+                    opts: ["ISO / IEC 20000.", "ISO / IEC 20002.", "ISO / IEC 27002.", "ISO / IEC 27000"]
+                },
+                {
+                    q: "31. Definiciones: \"Rama de las matemáticas (y en la actualidad de la informática) que hace uso de métodos matemáticos con el objeto principal de cifrar un mensaje o archivo por medio de un algoritmo y una o más claves, dando lugar a distintos criptosistemas que permiten proteger la confidencialidad y la integridad de los datos en la transmisión de la información\". Es lo que se define como:",
+                    a: 0,
+                    opts: ["Criptografía.", "Carpología.", "Criptoanálisis.", "Criptología."]
+                },
+                {
+                    q: "32. Benito quiere enviar una carta con información relevante que nada más que Adela tiene que conocer, para encriptar el contenido del mensaje realiza la sustitución aplicada a cada símbolo que este varía en función de la posición que ocupa este dentro del texto claro. Correspondiendo la aplicación cíclica de ‘n’ cifrados, ¿qué tipo de cifrado está utilizando Benito?",
+                    a: 3,
+                    opts: ["Sustitución Homofónica.", "Sustitución Alfin.", "Sustitución Monoalfabético.", "Sustitución Polialfabética."]
+                },
+                {
+                    q: "33. ¿Cómo se denomina el método en el Cifrado de Vigenère que se realiza en el criptoanálisis para efectuar análisis estadísticos independientes agrupando los símbolos para estimar los emparejamientos entre palabras repetidas y la clave?",
+                    a: 0,
+                    opts: ["Método Kasiski.", "Método Análisis de frecuencias", "Método Quasiski.", "Método Vigenère."]
+                },
+                {
+                    q: "34. ¿Qué nombre también puede recibir los criptosistemas simétricos?",
+                    a: 3,
+                    opts: ["Clave pública.", "Clave asimétrica.", "Clave simétrica.", "Clave privada."]
+                },
+                {
+                    q: "35. De los ejemplos que mostramos a continuación, ¿cuál no está cifrado en bloque en la criptografía simétrica?",
+                    a: 3,
+                    opts: ["Idea.", "Skipjack.", "AES.", "Rsa."]
+                },
+                {
+                    q: "36. Una de las ventajas de los modos de operación, nos permite cifrar / descifrar los bloques independientemente del orden, por esta razón ante un error en un bloque, el resto de bloques no se ven afectados. Gracias a ello nos permite el procesamiento en paralelo. Que tipo de modo de operación estamos hablando.....",
+                    a: 0,
+                    opts: ["ECB.", "CBC.", "OFB.", "CFB."]
+                },
+                {
+                    q: "37. Un cifrado en bloque para el que el tamaño de bloque es 1 y su transformación de cifrado cambia para cada símbolo de texto claro encriptado. Es lo que definimos como:",
+                    a: 2,
+                    opts: ["Implementación real.", "Asíncronos.", "Cifrado en flujo.", "Síncronos."]
+                },
+                {
+                    q: "38. Las congruencias lineales nos dice que dada una secuencia suficientemente larga se puede deducir a, b y m. Teniendo tal conocimiento podemos decir si son seguras o no.",
+                    a: 2,
+                    opts: ["Depende del idioma del texto.", "Si son seguras.", "No son seguras.", "Depende del tamaño de la secuencia."]
+                },
+                {
+                    q: "39. \"Es un ataque de texto claro elegido\". Para este tipo de ataque elegimos los textos a cifrar y tenemos acceso a los textos cifrados resultantes. ¿A qué tipo de criptoanálisis nos estamos refiriendo?.",
+                    a: 1,
+                    opts: ["Fuerza bruta.", "Criptoanálisis diferencial.", "Criptoanálisis lineal.", "DES Challenges."]
+                },
+                {
+                    q: "40. En el cifrado de bloques, ¿qué tipos de ataques puede sufrir el algoritmo DES? Entendiendo como ataques aquellos que buscan analizar el mensaje para conocer su contenido.",
+                    a: 3,
+                    opts: ["Criptoanálisis diferencial.", "Criptoanálisis lineal.", "Criptoanálisis por fuerza bruta.", "Todos son correctos."]
+                },
+                {
+                    q: "141. Selecciona la respuesta correcta en relación con los certificados digitales:",
+                    a: 0,
+                    opts: ["Tienen que ser firmados por una AC", "Una de las certificaciones más usadas es X.509", "El X.509 está basado en criptografía simétrica y firma digital", "El X.509 está basado en criptografía asimétrica y firma digital"]
+                },
+                {
+                    q: "116. Definiciones. \"El conjunto de procedimientos y técnicas para evaluar y controlar un sistema informático con el fin de constatar si sus actividades son correctas y de acuerdo a las normativas informáticas y generales prefijadas en la organización\".",
+                    a: 1,
+                    opts: ["Certificaciones ISO.", "Auditoría Informática.", "Organizaciones Itaca.", "Certificaciones de seguridad."]
+                },
+                {
+                    q: "117. La auditoría informática y las certificaciones de seguridad están compuestas por organizaciones. ¿Cuáles son algunas de las más importantes?",
+                    a: 1,
+                    opts: ["ITACA.", "(ISC)^2", "EC-Consulting.", "ConTIA."]
+                },
+                {
+                    q: "118. De todas las herramientas de auditoría que podemos encontrarnos en el mercado, podrías decirnos cuál o cuáles son las incorrectas.",
+                    a: 2,
+                    opts: ["Cobit.", "ITIL.", "ISO / IEC 20002.", "ISO / IEC 27002."]
+                },
+                {
+                    q: "119. Organización fundada en 1989, siendo esta una asociación internacional sin ánimo de lucro, con 123.000 miembros, pero con la salvedad que se tiene que ir renovando los “Continuing Professional Education (CPE) credits”. Es la organización:",
+                    a: 1,
+                    opts: ["ISACA", "(ISC)^2", "EC-Council", "CompTIA"]
+                },
+                {
+                    q: "120. Es un tipo de auditoría informática:",
+                    a: 0,
+                    opts: ["Auditoría de certificación informática.", "Auditoría de complemento legal.", "Auditoría de productividad informática.", "Auditoría de organismos."]
+                }
+            ]
+        },
     };
+
+    // ---------------------------------------------------------
+    // 🔹 BANCO: TODOS LOS TEMAS (Combinado automático)
+    // ---------------------------------------------------------
+    // Para que no haya código duplicado infinito, este bloque
+    // junta todos los bloques de arriba automáticamente.
+    bancosPreguntas["ssi_todos_temas"] = {
+        nombre: "Todos los Temas",
+        datos: [
+            ...bancosPreguntas["ssi_tema1"].datos,
+            ...bancosPreguntas["ssi_tema2"].datos,
+            ...bancosPreguntas["ssi_tema3"].datos,
+            ...bancosPreguntas["ssi_tema4"].datos,
+            ...bancosPreguntas["ssi_tema5"].datos
+        ]
+    };
+
+
+    // ==============================================================================
+    // A PARTIR DE AQUÍ NO NECESITAS TOCAR NADA. ESTA ES LA LÓGICA DEL PROGRAMA.
+    // ==============================================================================
 
     let currentQuestions = [];
     let currentQuestionIndex = 0;
